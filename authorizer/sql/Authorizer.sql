@@ -87,9 +87,14 @@ CREATE TABLE `project` (
   `project_name` varchar(250) NOT NULL,
   `project_desc` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`project_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Data for the table `project` */
+
+insert  into `project`(`project_id`,`project_name`,`project_desc`) values 
+(1,'ProjectA','Project A'),
+(2,'ProjectB','Project B'),
+(3,'ProjectC','Project C');
 
 /*Table structure for table `project_users` */
 
@@ -104,9 +109,15 @@ CREATE TABLE `project_users` (
   KEY `user_id` (`user_id`),
   CONSTRAINT `project_users_ibfk_1` FOREIGN KEY (`project_id`) REFERENCES `project` (`project_id`),
   CONSTRAINT `project_users_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 /*Data for the table `project_users` */
+
+insert  into `project_users`(`id`,`project_id`,`user_id`) values 
+(1,1,2),
+(2,2,3),
+(3,2,4),
+(4,3,5);
 
 /*Table structure for table `roles` */
 
@@ -189,15 +200,19 @@ CREATE TABLE `task_activity_schedule` (
 DROP TABLE IF EXISTS `tasks`;
 
 CREATE TABLE `tasks` (
-  `task_id` int(11) NOT NULL,
+  `task_id` int(11) NOT NULL AUTO_INCREMENT,
   `task_name` varchar(45) DEFAULT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`task_id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Data for the table `tasks` */
+
+insert  into `tasks`(`task_id`,`task_name`,`user_id`) values 
+(1,'TaskA',3),
+(2,'Create Case',3);
 
 /*Table structure for table `time_tracker` */
 
@@ -230,12 +245,16 @@ CREATE TABLE `user_roles` (
   `user_id` int(10) DEFAULT NULL,
   `role_id` int(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 /*Data for the table `user_roles` */
 
 insert  into `user_roles`(`id`,`user_id`,`role_id`) values 
-(1,1,1);
+(1,1,1),
+(2,2,2),
+(3,3,2),
+(4,4,2),
+(5,5,2);
 
 /*Table structure for table `users` */
 
@@ -247,12 +266,16 @@ CREATE TABLE `users` (
   `password` varchar(255) DEFAULT NULL,
   `enabled` tinyint(3) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 /*Data for the table `users` */
 
 insert  into `users`(`id`,`username`,`password`,`enabled`) values 
-(1,'Mohamed.Ismail@lntinfotech.com','$2a$10$EduspOO97f5xMCOuVTaagu.aNlFzv52fkMbW4T7JLvQ/YLxFGrOnK',1);
+(1,'Mohamed.Ismail@lntinfotech.com','$2a$10$EduspOO97f5xMCOuVTaagu.aNlFzv52fkMbW4T7JLvQ/YLxFGrOnK',1),
+(2,'akalya@gmail.com','$2a$10$EduspOO97f5xMCOuVTaagu.aNlFzv52fkMbW4T7JLvQ/YLxFGrOnK',1),
+(3,'sathish@gmail.com','$2a$10$EduspOO97f5xMCOuVTaagu.aNlFzv52fkMbW4T7JLvQ/YLxFGrOnK',1),
+(4,'bala@gmail.com','$2a$10$EduspOO97f5xMCOuVTaagu.aNlFzv52fkMbW4T7JLvQ/YLxFGrOnK',1),
+(5,'kumar@gmail.com','$2a$10$EduspOO97f5xMCOuVTaagu.aNlFzv52fkMbW4T7JLvQ/YLxFGrOnK',1);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
