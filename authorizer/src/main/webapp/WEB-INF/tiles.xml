@@ -34,4 +34,10 @@
 		<put-attribute name="body" value="/WEB-INF/jsp/common/editprofile.jsp" />
 	</definition>
 	
+	<definition name="createtask" extends="DefaultTemplate">
+		<put-attribute name="body" value="/WEB-INF/jsp/common/createtask.jsp" />
+	</definition>
+	
+	
+	
 </tiles-definitions>

@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,13 +20,18 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.demo.authorizer.dvo.EventInDVO;
 import com.demo.authorizer.dvo.EventOutDVO;
+import com.demo.authorizer.dvo.TaskDVO;
 import com.demo.authorizer.dvo.TaskDetailsDVO;
 import com.demo.authorizer.dvo.TaskEstimationSheetDVO;
 import com.demo.authorizer.dvo.TaskInfoDVO;
 import com.demo.authorizer.dvo.TaskSheetDVO;
+import com.demo.authorizer.service.impl.TaskServiceImpl;
 
 @Controller
 public class AuthorizerController {
+	
+	@Autowired
+	TaskServiceImpl taskServiceImpl;
 
 	@RequestMapping("/home")
 	public String entry(){
@@ -38,6 +46,32 @@ public class AuthorizerController {
 	@RequestMapping("/teamresources")
 	public String viewResources(){
 		return "teamresources";
+	}
+	
+	@RequestMapping("/createtask")
+	public ModelAndView  createTask(HttpServletRequest request){
+		TaskDVO taskDVO = taskServiceImpl.initTask();
+		ModelAndView model = new ModelAndView("createtask");
+		model.addObject("taskDVO", taskDVO);
+		return model;
+	}
+	
+	@RequestMapping("/getUser")
+	@ResponseBody
+	public TaskDVO  getUser(String projectId){
+		TaskDVO taskDVO = taskServiceImpl.getUsers(projectId);
+		return taskDVO;
+	}
+	
+	
+	
+	@RequestMapping("/savetask")
+	public ModelAndView saveTask(TaskDVO taskDVO){
+		taskServiceImpl.create(taskDVO);
+		TaskDVO taskDVOResp = taskServiceImpl.initTask();
+		ModelAndView model = new ModelAndView("createtask");
+		model.addObject("taskDVO", taskDVOResp);
+		return model;
 	}
 	
 	@RequestMapping("/tasksheet")

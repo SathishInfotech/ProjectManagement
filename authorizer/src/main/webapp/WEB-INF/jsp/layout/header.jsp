@@ -58,6 +58,8 @@ $(document).ready(function() {
 							TimeSheet</a></li>
 					<li><a href="teamresources"><i class="users icon"></i> 
 							Resources</a></li>
+					<li><a href="createtask"><i class="tasks icon"></i> 
+							Create Task</a></li>
 				</ul>
 				<div class="btn-group pull-right">
 					<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
