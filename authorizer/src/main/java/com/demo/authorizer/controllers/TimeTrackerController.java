@@ -43,7 +43,7 @@ public class TimeTrackerController {
 
 		}
 		//timeTrackerService.saveTimeTrackerDetails(timeTrackerDetailsDVO);
-		ModelAndView mv = new ModelAndView("timetracker", "timetracker", new TimeTrackerDetailsDVO());
+		ModelAndView mv = new ModelAndView("timetracker", "timetracker", new TimeTrackerDVO());
 		mv.addObject("disabled", "disabled");
 		mv.addObject("saveStatus", "Your task has been successfully saved");
 		return mv;
