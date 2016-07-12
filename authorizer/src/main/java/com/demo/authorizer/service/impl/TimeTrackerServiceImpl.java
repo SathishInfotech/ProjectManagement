@@ -1,12 +1,17 @@
 package com.demo.authorizer.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.demo.authorizer.dao.PhaseDAO;
+import com.demo.authorizer.dao.TaskDAO;
 import com.demo.authorizer.dao.TimeTrackerDAO;
+import com.demo.authorizer.dvo.TimeTrackerDVO;
 import com.demo.authorizer.dvo.TimeTrackerDetailsDVO;
 import com.demo.authorizer.entity.Activity;
 import com.demo.authorizer.entity.Phas;
@@ -23,43 +28,72 @@ public class TimeTrackerServiceImpl implements TimeTrackerService {
     @Autowired
     private TimeTrackerDAO timeTrackerDAO;
 
+    @Autowired
+    private TaskDAO taskDAO;
+
+    @Autowired
+    private PhaseDAO phaseDAO;
+
     @Override
-    public void saveTimeTrackerDetails(
-	    List<TimeTrackerDetailsDVO> timeTrackerDetailsDVO) {
+    public boolean saveTimeTrackerDetails(List<TimeTrackerDetailsDVO> timeTrackerDetailsDVO) {
 	List<TimeTracker> timeTrackerList = new ArrayList<TimeTracker>();
 	if (timeTrackerDetailsDVO != null) {
 	    int listSize = timeTrackerDetailsDVO.size();
 	    for (int i = 0; i < listSize; i++) {
-		TimeTracker timeTracker=new TimeTracker();
-		 timeTracker.setComments(timeTrackerDetailsDVO.get(i).getRemark());
-	/*	 timeTracker.setHoursSpent(Double.valueOf(timeTrackerDetailsDVO.get(i).getHoursSpent())); 
-		  timeTracker.setId(id);
-		  timeTracker.setTimeDate(timeTrackerDetailsDVO.get(i));
-	*/
-		timeTracker=populateTimeTracker(timeTrackerDetailsDVO.get(i),timeTracker);
+		TimeTracker timeTracker = new TimeTracker();
+		timeTracker.setComments(timeTrackerDetailsDVO.get(i).getRemark());
+		/*
+		 * timeTracker.setHoursSpent(Double.valueOf(timeTrackerDetailsDVO
+		 * .get(i).getHoursSpent())); timeTracker.setId(id);
+		 * timeTracker.setTimeDate(timeTrackerDetailsDVO.get(i));
+		 */
+		timeTracker = populateTimeTracker(timeTrackerDetailsDVO.get(i), timeTracker);
 		timeTrackerList.add(timeTracker);
 	    }
 	}
-	timeTrackerDAO.saveList(timeTrackerList);
+	return timeTrackerDAO.saveList(timeTrackerList);
     }
 
-    private TimeTracker populateTimeTracker(TimeTrackerDetailsDVO timeTrackerDetailsDVO,TimeTracker timeTracker) {
-	Phas phase=new Phas();
+    private TimeTracker populateTimeTracker(TimeTrackerDetailsDVO timeTrackerDetailsDVO, TimeTracker timeTracker) {
+	Phas phase = new Phas();
 	phase.setPhaseId(Integer.valueOf(timeTrackerDetailsDVO.getPhaseId().trim()));
-	SubPhas subPhase=new SubPhas();
+	SubPhas subPhase = new SubPhas();
 	subPhase.setSubPhaseId(Integer.valueOf(timeTrackerDetailsDVO.getSubphaseId().trim()));
-	PhaseSubPhaseMapper phaseMapper=new PhaseSubPhaseMapper();
+	PhaseSubPhaseMapper phaseMapper = new PhaseSubPhaseMapper();
 	phaseMapper.setPhas(phase);
 	phaseMapper.setSubPhas(subPhase);
 	timeTracker.setPhaseSubPhaseMapper(phaseMapper);
-	Task task=new Task();
+	Task task = new Task();
 	task.setTaskId(Integer.valueOf(timeTrackerDetailsDVO.getTaskId().trim()));
-	Activity activity=new Activity();
+	Activity activity = new Activity();
 	activity.setActivityId(Integer.valueOf(timeTrackerDetailsDVO.getActivityId().trim()));
-	TaskActivityMapper taskActivityMapper=new TaskActivityMapper();
+	TaskActivityMapper taskActivityMapper = new TaskActivityMapper();
 	taskActivityMapper.setActivity(activity);
 	taskActivityMapper.setTask(task);
 	timeTracker.setTaskActivityMapper(taskActivityMapper);
 	return timeTracker;
+    }
+
+    @Override
+    @Transactional
+    public TimeTrackerDVO getInitDetails(int userId) {
+	TimeTrackerDVO timeTrackerDVO = new TimeTrackerDVO();
+	HashMap<Integer, String> phaseMap = new HashMap<Integer, String>();
+	HashMap<Integer, String> taskMap = new HashMap<Integer, String>();
+	List<Phas> phasesList = phaseDAO.findAll();
+	if (phasesList != null && phasesList.size() > 0) {
+	    for (Phas phase : phasesList) {
+		taskMap.put(phase.getPhaseId(), phase.getPhaseName());
+	    }
+	}
+	List<Task> taskList = taskDAO.findTasksByUserId(userId);
+	if (taskList != null && taskList.size() > 0) {
+	    for (Task task : taskList) {
+		taskMap.put(task.getTaskId(), task.getTaskName());
+	    }
+	}
+	timeTrackerDVO.setTasks(taskMap);
+	timeTrackerDVO.setPhases(phaseMap);
+	return timeTrackerDVO;
     }
 }

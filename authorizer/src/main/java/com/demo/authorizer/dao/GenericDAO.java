@@ -20,7 +20,7 @@ public interface GenericDAO<T, ID extends Serializable> {
 
     T save(T entity);
 
-    void saveList(List<T> entities);
+    boolean saveList(List<T> entities);
 
     T saveOrUpdate(T entity);
 

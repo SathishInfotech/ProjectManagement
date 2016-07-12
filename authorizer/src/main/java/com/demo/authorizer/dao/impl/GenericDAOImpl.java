@@ -35,7 +35,6 @@ public abstract class GenericDAOImpl<T, ID extends Serializable> implements
      * Default Constructor
      */
     GenericDAOImpl() {
-
     }
 
     public Class<T> getEntityClass() {
@@ -50,7 +49,7 @@ public abstract class GenericDAOImpl<T, ID extends Serializable> implements
      * It is a method to get the session object
      */
     protected Session getSession() {
-	if (session == null || !session.isOpen())
+	//if (session == null || !session.isOpen())
 	    session = sessionFactory.getCurrentSession();
 	return session;
     }
@@ -112,16 +111,19 @@ public abstract class GenericDAOImpl<T, ID extends Serializable> implements
 	return entity;
     }
 
-    public void saveList(List<T> entities) {
+    public boolean saveList(List<T> entities) {
+	boolean result=false;
 	try {
 	    for (T entity : entities) {
 		getSession().save(entity);
 	    }
+	    result=true;
 	} catch (HibernateException hibernateException) {
 	    throw hibernateException;
 	} catch (Exception e) {
 	    e.printStackTrace();
 	}
+	return result;
     }
 
     /**
