@@ -141,4 +141,21 @@ public class AuthorizerController {
 		mv.addObject("saveStatus", "Your task has been successfully saved");
 		return mv;
 	}
+	
+	@RequestMapping("/viewtask")
+	public ModelAndView  viewTask(HttpServletRequest request){
+		TaskDVO taskDVO = taskServiceImpl.initTask();
+		ModelAndView model = new ModelAndView("viewtask");
+		model.addObject("taskDVO", taskDVO);
+		return model;
+	}
+	
+	@RequestMapping("/viewtaskdetails")
+	@ResponseBody
+	public List<TaskDVO>  viewTaskDetails(TaskDVO taskDVO){
+		List<TaskDVO> taskDVOs = taskServiceImpl.getTaskDetails(taskDVO);
+		return taskDVOs;
+	}
+	
+	
 }

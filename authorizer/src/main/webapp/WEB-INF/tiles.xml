@@ -38,6 +38,10 @@
 		<put-attribute name="body" value="/WEB-INF/jsp/common/createtask.jsp" />
 	</definition>
 	
+	<definition name="viewtask" extends="DefaultTemplate">
+		<put-attribute name="body" value="/WEB-INF/jsp/common/viewtask.jsp" />
+	</definition>
+	
 	
 	
 </tiles-definitions>

@@ -60,6 +60,8 @@ $(document).ready(function() {
 							Resources</a></li>
 					<li><a href="createtask"><i class="tasks icon"></i> 
 							Create Task</a></li>
+					<li><a href="viewtask"><i class="find icon"></i> 
+							View Task</a></li>
 				</ul>
 				<div class="btn-group pull-right">
 					<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">

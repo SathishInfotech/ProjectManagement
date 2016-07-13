@@ -75,4 +75,18 @@ public class TaskServiceImpl  {
 		
 	}
 
+	@Transactional
+	public List<TaskDVO> getTaskDetails(TaskDVO taskDVO) {
+		List<Task> tasks =TaskDAOImpl.getTaskByUser(taskDVO.getUserId());
+		List<TaskDVO> taskDVOs = new ArrayList<>();
+		for (Task task : tasks) {
+			TaskDVO dvo = new TaskDVO();
+			dvo.setTaskName(task.getTaskName());
+			dvo.setTaskId(task.getTaskId());
+			taskDVOs.add(dvo);
+		}
+		
+		return taskDVOs;
+	}
+
 }

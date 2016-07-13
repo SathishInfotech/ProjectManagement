@@ -12,6 +12,7 @@ public class TaskDVO {
 	private List<UserDVO> userDVOs;
 	private int projectId;
 	private int userId;
+	private int taskId;
 	public String getTaskName() {
 		return taskName;
 	}
@@ -41,6 +42,12 @@ public class TaskDVO {
 	}
 	public void setUserDVOs(List<UserDVO> userDVOs) {
 		this.userDVOs = userDVOs;
+	}
+	public int getTaskId() {
+		return taskId;
+	}
+	public void setTaskId(int taskId) {
+		this.taskId = taskId;
 	}
 	
 	
