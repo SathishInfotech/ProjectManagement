@@ -46,9 +46,11 @@ $(document).on("click", '#viewTaskIdBtn', function(e) {
             var data = json.userDVOs;
             for(i=0; i<data.length; i++) {
                  $el.append($("<option></option>").attr("value", data[i].userId).text(data[i].userName));
-                 $el.append("<tr><td>"+data[i].taskId+"</td><td>"+data[i].taskName+"</td><td>In Progress"</td>");
+                 $el.append("<tr><td>"+data[i].taskId+"</td><td>"+data[i].taskName+"</td><td>In Progress"+</td>");
                  $el.append("<td><button class='ui button' type='button' class='tskDtsView' id='detailsBtn"+data[i].taskId+"'>Details</button></td></tr>");
                }
+            $('#taskTabl').css('display','block');
+            $('#taskTabl').show();
         }
     });
 
@@ -104,11 +106,11 @@ $(document).on("click", '.tskDtsView', function(e) {
 					<option value="4">User4</option>
 				</select>
 			</div>
-			<button class="ui button" type="submit" id="viewTaskIdBtn">View Task</button>
+			<button class="ui button" type="button" id="viewTaskIdBtn">View Task</button>
 		</form>
 		
 	</div>
-	<div style="display: none;">
+	<div id="taskTabl" style="display: none;">
 		<table class="ui celled striped table">
 			<thead>
 				<tr>
