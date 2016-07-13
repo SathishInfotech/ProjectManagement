@@ -33,6 +33,8 @@ $(document).on("change", '#projectId', function(e) {
 });
 
 $(document).on("click", '#viewTaskIdBtn', function(e) {
+	 $('#taskTabl').css('display','none');
+     $('#taskTabl').hide();
     var usrId = $("#userId").val();
     $.ajax({
         type: "POST",
@@ -43,11 +45,9 @@ $(document).on("click", '#viewTaskIdBtn', function(e) {
 
             var $el = $("#tasktablId");
             $el.empty(); // remove old options
-            var data = json.userDVOs;
+            var data = json;
             for(i=0; i<data.length; i++) {
-                 $el.append($("<option></option>").attr("value", data[i].userId).text(data[i].userName));
-                 $el.append("<tr><td>"+data[i].taskId+"</td><td>"+data[i].taskName+"</td><td>In Progress"+</td>");
-                 $el.append("<td><button class='ui button' type='button' class='tskDtsView' id='detailsBtn"+data[i].taskId+"'>Details</button></td></tr>");
+                 $el.append("<tr><td>"+data[i].taskName+"</td><td>In Progress</td><td><button class='ui right labeled icon button' type='button' class='tskDtsView' id='detailsBtn_"+data[i].taskId+"'>Details</button></td></tr>");
                }
             $('#taskTabl').css('display','block');
             $('#taskTabl').show();
@@ -110,23 +110,24 @@ $(document).on("click", '.tskDtsView', function(e) {
 		</form>
 		
 	</div>
+	<div class="column" >
+	</br></br>
+	</div>
+	<div class="column" >
 	<div id="taskTabl" style="display: none;">
+	<h1>Task Details</h1>
 		<table class="ui celled striped table">
 			<thead>
 				<tr>
-					<th colspan="4">Task Details</th>
+					<th>Task Name</th>
+					<th>Task Status</th>
+					<th>Details</th>
 				</tr>
 			</thead>
 			<tbody id="tasktablId">
-				<tr>
-					<td class="collapsing"><i class="folder icon"></i>
-						node_modules</td>
-					<td>Initial commit</td>
-					<td class="right aligned collapsing">10 hours ago</td>
-				</tr>
 			</tbody>
 		</table>
 	</div>
-	
+	</div>
 </body>
 </html>
