@@ -56,9 +56,14 @@ CREATE TABLE `phase_sub_phase_mapper` (
   KEY `sub_phase_id` (`sub_phase_id`),
   CONSTRAINT `phase_sub_phase_mapper_ibfk_1` FOREIGN KEY (`phase_id`) REFERENCES `phases` (`phase_id`),
   CONSTRAINT `phase_sub_phase_mapper_ibfk_2` FOREIGN KEY (`sub_phase_id`) REFERENCES `sub_phases` (`sub_phase_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Data for the table `phase_sub_phase_mapper` */
+
+insert  into `phase_sub_phase_mapper`(`id`,`phase_id`,`sub_phase_id`) values 
+(1,3,1),
+(2,3,2),
+(3,3,3);
 
 /*Table structure for table `phases` */
 
@@ -145,9 +150,14 @@ CREATE TABLE `sub_phases` (
   `sub_phase_id` int(11) NOT NULL AUTO_INCREMENT,
   `sub_phase_name` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`sub_phase_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Data for the table `sub_phases` */
+
+insert  into `sub_phases`(`sub_phase_id`,`sub_phase_name`) values 
+(1,'coding'),
+(2,'UnitTesting'),
+(3,'Code Review');
 
 /*Table structure for table `task_activity_mapper` */
 
@@ -167,9 +177,13 @@ CREATE TABLE `task_activity_mapper` (
   CONSTRAINT `task_activity_mapper.activity_id` FOREIGN KEY (`activity_id`) REFERENCES `activity` (`activity_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `task_activity_mapper.task_id` FOREIGN KEY (`task_id`) REFERENCES `tasks` (`task_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `task_activity_mapper_ibfk_1` FOREIGN KEY (`phase_sub_phase_id`) REFERENCES `phase_sub_phase_mapper` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Data for the table `task_activity_mapper` */
+
+insert  into `task_activity_mapper`(`id`,`task_id`,`activity_id`,`estimate`,`phase_sub_phase_id`,`planned_start_date`) values 
+(1,1,1,'80',1,'2016-07-01'),
+(2,1,2,'60',2,'2016-07-05');
 
 /*Table structure for table `task_activity_schedule` */
 
@@ -191,9 +205,13 @@ CREATE TABLE `task_activity_schedule` (
   KEY `phase_sub_phase_id` (`phase_sub_phase_id`),
   CONSTRAINT `task_activity_schedule_ibfk_1` FOREIGN KEY (`task_activity_id`) REFERENCES `task_activity_mapper` (`id`),
   CONSTRAINT `task_activity_schedule_ibfk_2` FOREIGN KEY (`phase_sub_phase_id`) REFERENCES `phase_sub_phase_mapper` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Data for the table `task_activity_schedule` */
+
+insert  into `task_activity_schedule`(`id`,`task_activity_id`,`phase_sub_phase_id`,`sequence`,`planned_start_date`,`planned_end_date`,`actual_start_date`,`actual_end_date`,`task_activity_status`,`poc`) values 
+(1,1,1,1,'2016-07-01 22:22:07','2016-08-31 22:22:25','2016-07-01 22:23:11','2016-07-13 22:24:13','P',NULL),
+(2,2,2,2,'2016-07-04 22:24:40','2016-07-13 22:24:46','2016-07-05 22:24:52','2016-07-14 22:24:58','C',NULL);
 
 /*Table structure for table `tasks` */
 
@@ -206,13 +224,14 @@ CREATE TABLE `tasks` (
   PRIMARY KEY (`task_id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Data for the table `tasks` */
 
 insert  into `tasks`(`task_id`,`task_name`,`user_id`) values 
 (1,'TaskA',3),
-(2,'Create Case',3);
+(2,'Create Case',3),
+(3,'Generate Letter',2);
 
 /*Table structure for table `time_tracker` */
 
