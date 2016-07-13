@@ -56,6 +56,8 @@
 							class="glyphicon glyphicon-time"></span> TimeSheet</a></li>
 					<li><a href="timetracker"><span
 							class="glyphicon glyphicon-time"></span> TimeTracker</a></li>
+					<li><a href="viewtimetracker"><span
+							class="glyphicon glyphicon-time"></span>View TimeTracker</a></li>
 					<li><a href="teamresources"><i class="users icon"></i>
 							Resources</a></li>
 				</ul>

@@ -11,6 +11,24 @@ public class TimeTrackerDetailsDVO {
     private String subphaseId;
     private Long hoursSpent;
     private String remark;
+    private String projectId;
+    private String userId;
+
+    public String getProjectId() {
+	return projectId;
+    }
+
+    public void setProjectId(String projectId) {
+	this.projectId = projectId;
+    }
+
+    public String getUserId() {
+	return userId;
+    }
+
+    public void setUserId(String userId) {
+	this.userId = userId;
+    }
 
     public String getTimeDate() {
 	return timeDate;

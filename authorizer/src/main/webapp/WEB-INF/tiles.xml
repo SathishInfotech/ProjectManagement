@@ -30,6 +30,10 @@
 		<put-attribute name="body" value="/WEB-INF/jsp/common/timetracker.jsp" />
 	</definition>
 	
+	<definition name="viewtimetracker" extends="DefaultTemplate">
+		<put-attribute name="body" value="/WEB-INF/jsp/common/viewtimetracker.jsp" />
+	</definition>
+	
 	<definition name="taskestimation" extends="DefaultTemplate">
 		<put-attribute name="body" value="/WEB-INF/jsp/common/taskinfo.jsp" />
 	</definition>

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.demo.authorizer.dao.PhaseDAO;
+import com.demo.authorizer.dao.ProjectDAO;
 import com.demo.authorizer.dao.TaskDAO;
 import com.demo.authorizer.dao.TimeTrackerDAO;
 import com.demo.authorizer.dvo.TimeTrackerDVO;
@@ -16,10 +17,13 @@ import com.demo.authorizer.dvo.TimeTrackerDetailsDVO;
 import com.demo.authorizer.entity.Activity;
 import com.demo.authorizer.entity.Phas;
 import com.demo.authorizer.entity.PhaseSubPhaseMapper;
+import com.demo.authorizer.entity.Project;
+import com.demo.authorizer.entity.ProjectUser;
 import com.demo.authorizer.entity.SubPhas;
 import com.demo.authorizer.entity.Task;
 import com.demo.authorizer.entity.TaskActivityMapper;
 import com.demo.authorizer.entity.TimeTracker;
+import com.demo.authorizer.entity.User;
 import com.demo.authorizer.service.TimeTrackerService;
 
 @Service
@@ -33,6 +37,9 @@ public class TimeTrackerServiceImpl implements TimeTrackerService {
 
     @Autowired
     private PhaseDAO phaseDAO;
+
+    @Autowired
+    private ProjectDAO projectDAO;
 
     @Override
     public boolean saveTimeTrackerDetails(List<TimeTrackerDetailsDVO> timeTrackerDetailsDVO) {
@@ -94,6 +101,36 @@ public class TimeTrackerServiceImpl implements TimeTrackerService {
 	}
 	timeTrackerDVO.setTasks(taskMap);
 	timeTrackerDVO.setPhases(phaseMap);
+	return timeTrackerDVO;
+    }
+
+    @Override
+    @Transactional
+    public TimeTrackerDVO getAlProjects() {
+	TimeTrackerDVO timeTrackerDVO = new TimeTrackerDVO();
+	HashMap<Integer, String> projectMap = new HashMap<Integer, String>();
+	List<Project> projectList = projectDAO.findAll();
+	if (projectList != null && projectList.size() > 0) {
+	    for (Project project : projectList) {
+		projectMap.put(project.getProjectId(), project.getProjectName());
+	    }
+	}
+	timeTrackerDVO.setProjects(projectMap);
+	return timeTrackerDVO;
+    }
+
+    @Override
+    @Transactional
+    public TimeTrackerDVO getUserByProject(int projectId) {
+	TimeTrackerDVO timeTrackerDVO = new TimeTrackerDVO();
+	HashMap<Integer, String> userMap = new HashMap<Integer, String>();
+	Project project = projectDAO.findById(projectId, false);
+	if (project != null) {
+	    for (ProjectUser user : project.getProjectUsers()) {
+		userMap.put(user.getUser1().getId(), user.getUser1().getUsername());
+	    }
+	}
+	timeTrackerDVO.setUsers(userMap);
 	return timeTrackerDVO;
     }
 }
