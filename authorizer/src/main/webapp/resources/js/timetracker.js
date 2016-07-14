@@ -2,6 +2,16 @@
  * 
  */
 $(document).ready(function() {
+	/*var formURL = 'getCourseDetails';
+	$.post(formURL, $(this).serialize(), function(response) {
+	   console.log(response);
+	});
+	
+	
+	var taskMap =  '${timetracker.tasks}' ;//JSON.parse($('#tasksList').val());//"${timetracker.tasks}";
+	   $.each('${timetracker.tasks}', function(index,value){
+			  $('#allTasks').append("<option value=\"" + index + "\">" + value + "</option>");
+		});*/
 	var taskCount = $('#tasktable tbody>tr').length;
 	$('.ui.dropdown').dropdown();
 	$("#datepicker-input").datepicker({maxDate: 0});
@@ -9,9 +19,10 @@ $(document).ready(function() {
 		$("#datepicker-input").focus();
 	});
 	$("#addTimeTracker").click(function() {
+		
 		var rowContent = '<tr><td><div class="ui form"><div class="field"><input type="text" name="timeTrackerDetailsDVOs[' + taskCount + '].timeDate" class="datepick" placeholder="Select Date" /></div></div></td>'
 		+
-		'<td><div class="ui form"><div class="field"><input type="text" name="timeTrackerDetailsDVOs[' + taskCount + '].taskId" id="taskName' + taskCount + '" placeholder="Task name" /></div></div></td>'
+		'<td><div class="ui form"><div class="field"><select id="allTasks" name="timeTrackerDetailsDVOs[0].taskId"><option value="">Select Task</option></select></div></div></td>'
 		+
 		'<td><div class="ui form"><div class="field"><select name="timeTrackerDetailsDVOs[' + taskCount + '].activityId" id="activity' + taskCount + '"><option value="">Select Activity</option><option value="coding">Coding</option><option value="review">Review</option><option value="rework">Rework</option></select></div></div></td>'
 		+

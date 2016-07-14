@@ -45,21 +45,17 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user1")
     private List<ProjectUser> projectUsers1;
 
-    // bi-directional many-to-one association to ProjectUser
-    @OneToMany(mappedBy = "user2")
-    private List<ProjectUser> projectUsers2;
-
     // bi-directional many-to-one association to Task
     @OneToMany(mappedBy = "user")
     private List<Task> tasks;
 
-    @Column(name = "user_id")
+/*    @Column(name = "user_id")
     private String userId;
-
-    public String getUserId() {
+*/
+/*    public String getUserId() {
 	return userId;
     }
-
+*/
     public List<Project> getProjects() {
 	return projects;
     }
@@ -76,14 +72,6 @@ public class User implements Serializable {
 	this.projectUsers1 = projectUsers1;
     }
 
-    public List<ProjectUser> getProjectUsers2() {
-	return projectUsers2;
-    }
-
-    public void setProjectUsers2(List<ProjectUser> projectUsers2) {
-	this.projectUsers2 = projectUsers2;
-    }
-
     public List<Task> getTasks() {
 	return tasks;
     }
@@ -92,10 +80,10 @@ public class User implements Serializable {
 	this.tasks = tasks;
     }
 
-    public void setUserId(String userId) {
+ /*   public void setUserId(String userId) {
 	this.userId = userId;
     }
-
+*/
     public User() {
     }
 
@@ -165,20 +153,6 @@ public class User implements Serializable {
 	projectUsers1.setUser1(null);
 
 	return projectUsers1;
-    }
-
-    public ProjectUser addProjectUsers2(ProjectUser projectUsers2) {
-	getProjectUsers2().add(projectUsers2);
-	projectUsers2.setUser2(this);
-
-	return projectUsers2;
-    }
-
-    public ProjectUser removeProjectUsers2(ProjectUser projectUsers2) {
-	getProjectUsers2().remove(projectUsers2);
-	projectUsers2.setUser2(null);
-
-	return projectUsers2;
     }
 
 }

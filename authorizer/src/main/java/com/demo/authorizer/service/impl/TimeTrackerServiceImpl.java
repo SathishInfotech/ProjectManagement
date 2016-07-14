@@ -1,6 +1,7 @@
 package com.demo.authorizer.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -90,7 +91,7 @@ public class TimeTrackerServiceImpl implements TimeTrackerService {
 	List<Phas> phasesList = phaseDAO.findAll();
 	if (phasesList != null && phasesList.size() > 0) {
 	    for (Phas phase : phasesList) {
-		taskMap.put(phase.getPhaseId(), phase.getPhaseName());
+		phaseMap.put(phase.getPhaseId(), phase.getPhaseName());
 	    }
 	}
 	List<Task> taskList = taskDAO.findTasksByUserId(userId);
@@ -132,5 +133,11 @@ public class TimeTrackerServiceImpl implements TimeTrackerService {
 	}
 	timeTrackerDVO.setUsers(userMap);
 	return timeTrackerDVO;
+    }
+
+    @Override
+    public TimeTrackerDVO getAllTaskDetailsByUserIdandProjectId(int projectId, int userId, Date date) {
+	// TODO Auto-generated method stub
+	return null;
     }
 }
