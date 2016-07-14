@@ -24,20 +24,9 @@
 			<h3>Task Estimation</h3>
 		</div>
 		<div class="ui padded raised segment">
-			<p>
-				<b>Select a task start date:</b>
-				<form:input type="text" path="beginDate" id="datepicker-input"
-					placeholder="Select Date" class="three wide field" />
-				<a class="circular ui small icon button" href="#" id="datepicker-btn">
-					<span class="glyphicon glyphicon-calendar"
-						style="margin-right: 0px;"></span>
-				</a>
-			</p>
-		</div>
-		<div class="ui padded raised segment">
-			<button class="ui small right floated primary button" id="addTask">
+			<!-- <button class="ui small right floated primary button" id="addTask">
 				<span class="glyphicon glyphicon-plus"></span>Add Task
-			</button>
+			</button> -->
 
 
 			<table id="tasktable" class="table">
@@ -46,7 +35,10 @@
 						<th>Phase</th>
 						<th>Activity</th>
 						<th>Remark</th>
-						<th>Estimated Hours</th>
+						<th>Est Hours</th>
+						<th>Est Startdate</th>
+						<th>Est Enddate</th>
+						<th>Completion Status</th>
 						<th>Action</th>
 					</tr>
 				</thead>
@@ -58,42 +50,42 @@
 							<td>
 								<div class="ui form">
 									<div class="field">
-										<form:select id="phase1"
-											path="taskInfoDVOs[${loop.index}].phase">
-											<option value=""></option>
-											<option value="requirement">Requirement</option>
-											<option value="design">Design</option>
-											<option value="coding">Coding</option>
-											<option value="testing">Testing</option>
-										</form:select> 
+										${taskInfoDVO.phase}
 									</div>
 								</div>
 							</td>
 							<td>
 								<div class="ui form">
 									<div class="field">
-										<form:select id="activity1"
-											path="taskInfoDVOs[${loop.index}].activity">
-											<option value=""></option>
-											<option value="coding">Coding</option>
-											<option value="review">Review</option>
-											<option value="rework">Rework</option>
-										</form:select>
+										${taskInfoDVO.activity}
 									</div>
 								</div>
 							</td>
 							<td><div class="ui form">
 									<div class="field">
-										<form:input type="text" id="remark1"
-											path="taskInfoDVOs[${loop.index}].remark"
-											placeholder="Remark" />
+										${taskInfoDVO.remark}
 									</div>
 								</div></td>
 							<td><div class="ui form">
 									<div class="field">
-										<form:input type="text"
-											path="taskInfoDVOs[${loop.index}].estimatedHour"
-											id="estHour1" placeholder="Estimated Hours" />
+										${taskInfoDVO.estimatedHour}
+									</div>
+								</div></td>
+								<td><div class="ui form">
+									<div class="field">
+										${taskInfoDVO.startDate}
+									</div>
+								</div></td>
+								<td><div class="ui form">
+									<div class="field">
+										${taskInfoDVO.endDate}
+									</div>
+								</div></td>
+							<td><div class="ui form">
+									<div class="field">
+										<form:checkbox id="compStatus1"
+											path="taskInfoDVOs[${loop.index}].completionStatus" />
+										&nbsp;Completed
 									</div>
 								</div></td>
 
@@ -116,7 +108,7 @@
 		</div>
 		<a class="small ui right floated button" href="#" id="resetSheet">Reset</a>
 		<button type="submit"
-			class="small ui inverted right floated green button" id="submitSheet">Generate</button>
+			class="small ui inverted right floated green button" id="submitSheet">Submit</button>
 
 	</form:form>
 
