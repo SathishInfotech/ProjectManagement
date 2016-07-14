@@ -3,11 +3,9 @@ package com.demo.authorizer.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.demo.authorizer.dvo.TimeTrackerDVO;
 import com.demo.authorizer.dvo.TimeTrackerDetailsDVO;
@@ -26,16 +24,17 @@ public class TimeTrackerController {
 	return "timetracker";
     }
 
-    @RequestMapping("saveTimeTracker")
-    public ModelAndView saveTimeTracker(@ModelAttribute TimeTrackerDVO timeTrackerDVO) {
+    @RequestMapping(value = "saveTimeTracker", method = RequestMethod.POST)
+    public String saveTimeTracker(TimeTrackerDVO timeTrackerDVO, Model model) {
 	boolean response = timeTrackerService.saveTimeTrackerDetails(timeTrackerDVO.getTimeTrackerDetailsDVOs());
-	ModelAndView mv = new ModelAndView("timetracker", "timetracker", timeTrackerService.getInitDetails(1));
 	if (response) {
-	    mv.addObject("saveStatus", "Your task has been successfully saved");
+	    TimeTrackerDVO timetracker = timeTrackerService.getInitDetails(1);
+	    model.addAttribute("timetracker", timetracker);
+	    model.addAttribute("saveStatus", "Your task has been successfully saved");
 	} else {
-	    mv.addObject("saveStatus", "Error has been occured while saving details");
+	    model.addAttribute("saveStatus", "Error has been occured while saving details");
 	}
-	return mv;
+	return "timetracker";
     }
 
     @RequestMapping(value = "/viewtimetracker", method = RequestMethod.GET)
@@ -61,9 +60,9 @@ public class TimeTrackerController {
 
     @RequestMapping(value = "/viewtimetracker", method = RequestMethod.POST)
     public String postViewTimeTracker(Model model, TimeTrackerDetailsDVO timeTrackerDetailsDVO) {
-	System.out.println("project id"+ timeTrackerDetailsDVO.getProjectId());
-	System.out.println("User id:"+timeTrackerDetailsDVO.getUserId());
-	System.out.println("Date:"+timeTrackerDetailsDVO.getTimeDate());
+	System.out.println("project id" + timeTrackerDetailsDVO.getProjectId());
+	System.out.println("User id:" + timeTrackerDetailsDVO.getUserId());
+	System.out.println("Date:" + timeTrackerDetailsDVO.getTimeDate());
 	return "viewtimetracker";
     }
 
