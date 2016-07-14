@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,9 +22,13 @@ import com.demo.authorizer.dvo.TaskDetailsDVO;
 import com.demo.authorizer.dvo.TaskEstimationSheetDVO;
 import com.demo.authorizer.dvo.TaskInfoDVO;
 import com.demo.authorizer.dvo.TaskSheetDVO;
+import com.demo.authorizer.service.TaskSheetService;
 
 @Controller
 public class AuthorizerController {
+	
+	@Autowired
+	private TaskSheetService taskSheetService;
 
 	@RequestMapping("/home")
 	public String entry(){
