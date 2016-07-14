@@ -25,6 +25,14 @@ public class User implements Serializable {
 
 	private String username;
 
+	//bi-directional many-to-one association to ProjectUser
+	@OneToMany(mappedBy="user")
+	private List<ProjectUser> projectUsers;
+
+	//bi-directional many-to-one association to Task
+	@OneToMany(mappedBy="user")
+	private List<Task> tasks;
+
 	//bi-directional many-to-one association to UserRole
 	@OneToMany(mappedBy="user")
 	private List<UserRole> userRoles;
@@ -62,6 +70,50 @@ public class User implements Serializable {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public List<ProjectUser> getProjectUsers() {
+		return this.projectUsers;
+	}
+
+	public void setProjectUsers(List<ProjectUser> projectUsers) {
+		this.projectUsers = projectUsers;
+	}
+
+	public ProjectUser addProjectUser(ProjectUser projectUser) {
+		getProjectUsers().add(projectUser);
+		projectUser.setUser(this);
+
+		return projectUser;
+	}
+
+	public ProjectUser removeProjectUser(ProjectUser projectUser) {
+		getProjectUsers().remove(projectUser);
+		projectUser.setUser(null);
+
+		return projectUser;
+	}
+
+	public List<Task> getTasks() {
+		return this.tasks;
+	}
+
+	public void setTasks(List<Task> tasks) {
+		this.tasks = tasks;
+	}
+
+	public Task addTask(Task task) {
+		getTasks().add(task);
+		task.setUser(this);
+
+		return task;
+	}
+
+	public Task removeTask(Task task) {
+		getTasks().remove(task);
+		task.setUser(null);
+
+		return task;
 	}
 
 	public List<UserRole> getUserRoles() {

@@ -17,7 +17,7 @@ public class Project implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="project_id")
-	private Integer projectId;
+	private int projectId;
 
 	@Column(name="project_desc")
 	private String projectDesc;
@@ -32,15 +32,13 @@ public class Project implements Serializable {
 	public Project() {
 	}
 
-	public Integer getProjectId() {
-		return projectId;
+	public int getProjectId() {
+		return this.projectId;
 	}
 
-
-	public void setProjectId(Integer projectId) {
+	public void setProjectId(int projectId) {
 		this.projectId = projectId;
 	}
-
 
 	public String getProjectDesc() {
 		return this.projectDesc;

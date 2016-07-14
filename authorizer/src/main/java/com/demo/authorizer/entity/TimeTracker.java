@@ -32,15 +32,15 @@ public class TimeTracker implements Serializable {
 	@Column(name="time_date")
 	private Date timeDate;
 
-	//bi-directional many-to-one association to TaskActivityMapper
-	@ManyToOne
-	@JoinColumn(name="task_activity_id")
-	private TaskActivityMapper taskActivityMapper;
-
 	//bi-directional many-to-one association to PhaseSubPhaseMapper
 	@ManyToOne
 	@JoinColumn(name="phase_sub_phase_id")
 	private PhaseSubPhaseMapper phaseSubPhaseMapper;
+
+	//bi-directional many-to-one association to TaskActivityMapper
+	@ManyToOne
+	@JoinColumn(name="task_activity_id")
+	private TaskActivityMapper taskActivityMapper;
 
 	public TimeTracker() {
 	}
@@ -85,20 +85,20 @@ public class TimeTracker implements Serializable {
 		this.timeDate = timeDate;
 	}
 
-	public TaskActivityMapper getTaskActivityMapper() {
-		return this.taskActivityMapper;
-	}
-
-	public void setTaskActivityMapper(TaskActivityMapper taskActivityMapper) {
-		this.taskActivityMapper = taskActivityMapper;
-	}
-
 	public PhaseSubPhaseMapper getPhaseSubPhaseMapper() {
 		return this.phaseSubPhaseMapper;
 	}
 
 	public void setPhaseSubPhaseMapper(PhaseSubPhaseMapper phaseSubPhaseMapper) {
 		this.phaseSubPhaseMapper = phaseSubPhaseMapper;
+	}
+
+	public TaskActivityMapper getTaskActivityMapper() {
+		return this.taskActivityMapper;
+	}
+
+	public void setTaskActivityMapper(TaskActivityMapper taskActivityMapper) {
+		this.taskActivityMapper = taskActivityMapper;
 	}
 
 }

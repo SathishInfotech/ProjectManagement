@@ -22,9 +22,6 @@ public class Activity implements Serializable {
 	@Column(name="activity_name")
 	private String activityName;
 
-	@Column(name="parent_id")
-	private int parentId;
-
 	//bi-directional many-to-one association to TaskActivityMapper
 	@OneToMany(mappedBy="activity")
 	private List<TaskActivityMapper> taskActivityMappers;
@@ -46,14 +43,6 @@ public class Activity implements Serializable {
 
 	public void setActivityName(String activityName) {
 		this.activityName = activityName;
-	}
-
-	public int getParentId() {
-		return this.parentId;
-	}
-
-	public void setParentId(int parentId) {
-		this.parentId = parentId;
 	}
 
 	public List<TaskActivityMapper> getTaskActivityMappers() {

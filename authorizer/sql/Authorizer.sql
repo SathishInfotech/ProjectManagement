@@ -23,25 +23,14 @@ DROP TABLE IF EXISTS `activity`;
 CREATE TABLE `activity` (
   `activity_id` int(11) NOT NULL AUTO_INCREMENT,
   `activity_name` varchar(250) DEFAULT NULL,
-  `parent_id` int(11) NOT NULL,
   PRIMARY KEY (`activity_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 /*Data for the table `activity` */
 
-insert  into `activity`(`activity_id`,`activity_name`,`parent_id`) values 
-(1,'Usecase discussion',1),
-(2,'Usecase review/clarifications',1),
-(3,'Analysis',2),
-(4,'Detail design documentaion',2),
-(5,'Review',2),
-(6,'Rework',2),
-(7,'Coding',3),
-(8,'Junit',3),
-(9,'Review',3),
-(10,'Rework',3),
-(11,'Testcase preparation',4),
-(12,'Testcase review/rework',4);
+insert  into `activity`(`activity_id`,`activity_name`) values 
+(1,'Controller Coding'),
+(2,'DB Part Coding');
 
 /*Table structure for table `phase_sub_phase_mapper` */
 
@@ -97,8 +86,8 @@ CREATE TABLE `project` (
 /*Data for the table `project` */
 
 insert  into `project`(`project_id`,`project_name`,`project_desc`) values 
-(1,'ProjectA','Project A'),
-(2,'ProjectB','Project B'),
+(1,'Citi Project','Project A'),
+(2,'KY Project','Project B'),
 (3,'ProjectC','Project C');
 
 /*Table structure for table `project_users` */
@@ -150,14 +139,16 @@ CREATE TABLE `sub_phases` (
   `sub_phase_id` int(11) NOT NULL AUTO_INCREMENT,
   `sub_phase_name` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`sub_phase_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 /*Data for the table `sub_phases` */
 
 insert  into `sub_phases`(`sub_phase_id`,`sub_phase_name`) values 
-(1,'coding'),
+(1,'Coding'),
 (2,'UnitTesting'),
-(3,'Code Review');
+(3,'Code Review'),
+(4,'Document Preparation'),
+(5,'Code Rework');
 
 /*Table structure for table `task_activity_mapper` */
 
@@ -169,7 +160,6 @@ CREATE TABLE `task_activity_mapper` (
   `activity_id` int(11) NOT NULL,
   `estimate` decimal(2,0) DEFAULT NULL,
   `phase_sub_phase_id` int(11) unsigned NOT NULL,
-  `planned_start_date` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `task_activity_mapper.activity_id_idx` (`activity_id`),
   KEY `task_activity_mapper.phase_id_idx` (`phase_sub_phase_id`),
@@ -181,9 +171,9 @@ CREATE TABLE `task_activity_mapper` (
 
 /*Data for the table `task_activity_mapper` */
 
-insert  into `task_activity_mapper`(`id`,`task_id`,`activity_id`,`estimate`,`phase_sub_phase_id`,`planned_start_date`) values 
-(1,1,1,'80',1,'2016-07-01'),
-(2,1,2,'60',2,'2016-07-05');
+insert  into `task_activity_mapper`(`id`,`task_id`,`activity_id`,`estimate`,`phase_sub_phase_id`) values 
+(1,1,1,'80',1),
+(2,1,2,'60',2);
 
 /*Table structure for table `task_activity_schedule` */
 
@@ -197,7 +187,7 @@ CREATE TABLE `task_activity_schedule` (
   `planned_start_date` datetime NOT NULL,
   `planned_end_date` datetime NOT NULL,
   `actual_start_date` datetime NOT NULL,
-  `actual_end_date` datetime NOT NULL,
+  `actual_end_date` datetime DEFAULT NULL,
   `task_activity_status` varchar(1) NOT NULL,
   `poc` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -224,14 +214,15 @@ CREATE TABLE `tasks` (
   PRIMARY KEY (`task_id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 /*Data for the table `tasks` */
 
 insert  into `tasks`(`task_id`,`task_name`,`user_id`) values 
-(1,'TaskA',3),
+(1,'Review Case',3),
 (2,'Create Case',3),
-(3,'Generate Letter',2);
+(3,'Generate Letter',2),
+(4,'Send Letter',2);
 
 /*Table structure for table `time_tracker` */
 
@@ -263,7 +254,11 @@ CREATE TABLE `user_roles` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `user_id` int(10) DEFAULT NULL,
   `role_id` int(10) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `role_id` (`role_id`),
+  CONSTRAINT `user_roles_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `user_roles_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 /*Data for the table `user_roles` */

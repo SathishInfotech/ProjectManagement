@@ -42,15 +42,15 @@ public class TaskActivitySchedule implements Serializable {
 	@Column(name="task_activity_status")
 	private String taskActivityStatus;
 
-	//bi-directional many-to-one association to TaskActivityMapper
-	@ManyToOne
-	@JoinColumn(name="task_activity_id")
-	private TaskActivityMapper taskActivityMapper;
-
 	//bi-directional many-to-one association to PhaseSubPhaseMapper
 	@ManyToOne
 	@JoinColumn(name="phase_sub_phase_id")
 	private PhaseSubPhaseMapper phaseSubPhaseMapper;
+
+	//bi-directional many-to-one association to TaskActivityMapper
+	@ManyToOne
+	@JoinColumn(name="task_activity_id")
+	private TaskActivityMapper taskActivityMapper;
 
 	public TaskActivitySchedule() {
 	}
@@ -119,20 +119,20 @@ public class TaskActivitySchedule implements Serializable {
 		this.taskActivityStatus = taskActivityStatus;
 	}
 
-	public TaskActivityMapper getTaskActivityMapper() {
-		return this.taskActivityMapper;
-	}
-
-	public void setTaskActivityMapper(TaskActivityMapper taskActivityMapper) {
-		this.taskActivityMapper = taskActivityMapper;
-	}
-
 	public PhaseSubPhaseMapper getPhaseSubPhaseMapper() {
 		return this.phaseSubPhaseMapper;
 	}
 
 	public void setPhaseSubPhaseMapper(PhaseSubPhaseMapper phaseSubPhaseMapper) {
 		this.phaseSubPhaseMapper = phaseSubPhaseMapper;
+	}
+
+	public TaskActivityMapper getTaskActivityMapper() {
+		return this.taskActivityMapper;
+	}
+
+	public void setTaskActivityMapper(TaskActivityMapper taskActivityMapper) {
+		this.taskActivityMapper = taskActivityMapper;
 	}
 
 }

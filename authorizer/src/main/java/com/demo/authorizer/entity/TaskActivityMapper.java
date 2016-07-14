@@ -22,23 +22,20 @@ public class TaskActivityMapper implements Serializable {
 
 	private BigDecimal estimate;
 
-	@Column(name="planned_start_date")
-	private String plannedStartDate;
-
 	//bi-directional many-to-one association to Activity
 	@ManyToOne
 	@JoinColumn(name="activity_id")
 	private Activity activity;
 
-	//bi-directional many-to-one association to Task
-	@ManyToOne
-	@JoinColumn(name="task_id")
-	private Task task;
-
 	//bi-directional many-to-one association to PhaseSubPhaseMapper
 	@ManyToOne
 	@JoinColumn(name="phase_sub_phase_id")
 	private PhaseSubPhaseMapper phaseSubPhaseMapper;
+
+	//bi-directional many-to-one association to Task
+	@ManyToOne
+	@JoinColumn(name="task_id")
+	private Task task;
 
 	//bi-directional many-to-one association to TaskActivitySchedule
 	@OneToMany(mappedBy="taskActivityMapper")
@@ -67,14 +64,6 @@ public class TaskActivityMapper implements Serializable {
 		this.estimate = estimate;
 	}
 
-	public String getPlannedStartDate() {
-		return this.plannedStartDate;
-	}
-
-	public void setPlannedStartDate(String plannedStartDate) {
-		this.plannedStartDate = plannedStartDate;
-	}
-
 	public Activity getActivity() {
 		return this.activity;
 	}
@@ -83,20 +72,20 @@ public class TaskActivityMapper implements Serializable {
 		this.activity = activity;
 	}
 
-	public Task getTask() {
-		return this.task;
-	}
-
-	public void setTask(Task task) {
-		this.task = task;
-	}
-
 	public PhaseSubPhaseMapper getPhaseSubPhaseMapper() {
 		return this.phaseSubPhaseMapper;
 	}
 
 	public void setPhaseSubPhaseMapper(PhaseSubPhaseMapper phaseSubPhaseMapper) {
 		this.phaseSubPhaseMapper = phaseSubPhaseMapper;
+	}
+
+	public Task getTask() {
+		return this.task;
+	}
+
+	public void setTask(Task task) {
+		this.task = task;
 	}
 
 	public List<TaskActivitySchedule> getTaskActivitySchedules() {
