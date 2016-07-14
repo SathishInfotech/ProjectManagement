@@ -38,6 +38,10 @@
 		<put-attribute name="body" value="/WEB-INF/jsp/common/taskinfo.jsp" />
 	</definition>
 	
+	<definition name="taskestimationdetails" extends="DefaultTemplate">
+		<put-attribute name="body" value="/WEB-INF/jsp/common/taskinfodetails.jsp" />
+	</definition>
+	
 	<definition name="editprofile" extends="DefaultTemplate">
 		<put-attribute name="body" value="/WEB-INF/jsp/common/editprofile.jsp" />
 	</definition>
