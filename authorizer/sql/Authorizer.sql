@@ -241,7 +241,8 @@ CREATE TABLE `time_tracker` (
   KEY `time_tracker.activity_id_idx` (`task_activity_id`),
   KEY `time_tracker.sub_phase_id_idx` (`phase_sub_phase_id`),
   CONSTRAINT `time_tracker_ibfk_1` FOREIGN KEY (`task_activity_id`) REFERENCES `task_activity_mapper` (`id`),
-  CONSTRAINT `time_tracker_ibfk_2` FOREIGN KEY (`phase_sub_phase_id`) REFERENCES `phase_sub_phase_mapper` (`id`)
+  CONSTRAINT `time_tracker_ibfk_2` FOREIGN KEY (`phase_sub_phase_id`) REFERENCES `phase_sub_phase_mapper` (`id`),
+  CONSTRAINT `time_tracker_ibfk_3` FOREIGN KEY (`id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `time_tracker` */
@@ -252,7 +253,7 @@ DROP TABLE IF EXISTS `user_roles`;
 
 CREATE TABLE `user_roles` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `user_id` int(10) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
   `role_id` int(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
@@ -275,7 +276,7 @@ insert  into `user_roles`(`id`,`user_id`,`role_id`) values
 DROP TABLE IF EXISTS `users`;
 
 CREATE TABLE `users` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(255) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
   `enabled` tinyint(3) DEFAULT '1',
