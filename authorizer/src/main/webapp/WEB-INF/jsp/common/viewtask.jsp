@@ -35,6 +35,8 @@ $(document).on("change", '#projectId', function(e) {
 $(document).on("click", '#viewTaskIdBtn', function(e) {
 	 $('#taskTabl').css('display','none');
      $('#taskTabl').hide();
+     $('#taskActivityTabl').css('display','none');
+     $('#taskActivityTabl').hide();
     var usrId = $("#userId").val();
     $.ajax({
         type: "POST",
@@ -47,7 +49,7 @@ $(document).on("click", '#viewTaskIdBtn', function(e) {
             $el.empty(); // remove old options
             var data = json;
             for(i=0; i<data.length; i++) {
-                 $el.append("<tr><td>"+data[i].taskName+"</td><td>In Progress</td><td><button class='ui right labeled icon button' type='button' class='tskDtsView' id='detailsBtn_"+data[i].taskId+"'>Details</button></td></tr>");
+                 $el.append("<tr><td>"+data[i].taskName+"</td><td>In Progress</td><td><button class='ui green button' type='button' class='tskDtsView' id='detailsBtn_"+data[i].taskId+"'>View</button></td></tr>");
                }
             $('#taskTabl').css('display','block');
             $('#taskTabl').show();
@@ -57,25 +59,36 @@ $(document).on("click", '#viewTaskIdBtn', function(e) {
 });
 
 $(document).on("click", '.tskDtsView', function(e) {
-    var projId = $(this).val();
-   /*  $.ajax({
+    var taskId = $(this).attr('id');
+    var taskIdVal = taskId.split("_")[1];
+    
+     $.ajax({
         type: "POST",
-        data: {"projectId": projId},
-        url: 'getUser',
+        data: {"taskId": taskIdVal},
+        url: 'viewactivity',
         dataType: 'json',
         success: function(json) {
 
-            var $el = $("#userId");
-            $el.empty(); // remove old options
-            $el.append($("<option></option>")
-                    .attr("value", '').text('Please Select User'));
-            var data = json.userDVOs;
-            for(i=0; i<data.length; i++) {
-                 $el.append($("<option></option>")
-                        .attr("value", data[i].userId).text(data[i].userName));
-               }
+        	 var $el = $("#taskActivitytablId");
+             $el.empty(); // remove old options
+             var data = json;
+             for(i=0; i<data.length; i++) {
+            	 var respVal = "<tr><td>"+data[i].task+"</td>";
+            	 respVal+="<td>"+data[i].activity+"</td>";
+            	 respVal+="<td>"+data[i].phase+"</td>";
+            	 respVal+="<td>"+data[i].subPhase+"</td>";
+            	 respVal+="<td>"+data[i].estimatedHour+"</td>";
+            	 respVal+="<td>"+data[i].plannedStartDate+"</td>";
+            	 respVal+="<td>"+data[i].plannedEndDate+"</td>";
+            	 respVal+="<td>"+data[i].actualStartDate+"</td>";
+            	 respVal+="<td>"+data[i].actualEndDate+"</td>";
+            	 respVal+="<td>"+data[i].status+"</td></tr>";
+                  $el.append(respVal);
+                }
+             $('#taskActivityTabl').css('display','block');
+             $('#taskActivityTabl').show();
         }
-    }); */
+    }); 
 
 });
 
@@ -84,6 +97,8 @@ $(document).on("click", '.tskDtsView', function(e) {
 
 </script>
 <body>
+<div class="ui middle aligned center aligned grid">
+<table  class="ui celled table" style="width: 80%"><tr><td>
 	<div class="column" >
 		<h4 class="ui center aligned header">View Task Details</h4>
 
@@ -129,5 +144,34 @@ $(document).on("click", '.tskDtsView', function(e) {
 		</table>
 	</div>
 	</div>
+	<div class="column" >
+	</br></br>
+	</div>
+	<div class="column" >
+	<div id="taskActivityTabl" style="display: none;">
+	<h1>Task Activity Details</h1>
+		<table class="ui celled striped table">
+			<thead>
+				<tr>
+					<th>Task Name</th>
+					<th>Activity Name</th>
+					<th>Phase</th>
+					<th>Sub Phase</th>
+					<th>Estimated Hrs</th>
+					<th>Planned Start Date</th>
+					<th>Planned End Date</th>
+					<th>Actual Start Date</th>
+					<th>Actual End Date</th>
+					<th>Status</th>
+				</tr>
+			</thead>
+			<tbody id="taskActivitytablId">
+			</tbody>
+		</table>
+	</div>
+	</div>
+	
+</td></tr></table>
+</div>
 </body>
 </html>

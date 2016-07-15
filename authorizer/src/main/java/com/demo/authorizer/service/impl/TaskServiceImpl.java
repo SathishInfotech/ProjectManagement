@@ -7,15 +7,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.demo.authorizer.dao.PhaseDAO;
 import com.demo.authorizer.dao.ProjectDAO;
 import com.demo.authorizer.dao.ProjectUserDAO;
+import com.demo.authorizer.dao.SubPhaseDAO;
+import com.demo.authorizer.dao.TaskActivityMapperDAO;
+import com.demo.authorizer.dao.TaskActivityScheduleDAO;
 import com.demo.authorizer.dao.TaskDAO;
 import com.demo.authorizer.dvo.ProjectDVO;
+import com.demo.authorizer.dvo.TaskActivityDetailsDVO;
 import com.demo.authorizer.dvo.TaskDVO;
 import com.demo.authorizer.dvo.UserDVO;
+import com.demo.authorizer.entity.Phas;
 import com.demo.authorizer.entity.Project;
 import com.demo.authorizer.entity.ProjectUser;
+import com.demo.authorizer.entity.SubPhas;
 import com.demo.authorizer.entity.Task;
+import com.demo.authorizer.entity.TaskActivityMapper;
+import com.demo.authorizer.entity.TaskActivitySchedule;
 import com.demo.authorizer.entity.User;
 
 @Service
@@ -29,6 +38,18 @@ public class TaskServiceImpl  {
 	
 	@Autowired
 	private TaskDAO TaskDAOImpl;
+	
+	@Autowired
+	private TaskActivityMapperDAO taskActivityMapperDAOImpl;
+	
+	@Autowired
+	private TaskActivityScheduleDAO taskActivityScheduleDAOImpl;
+	
+	@Autowired
+	private PhaseDAO phaseDAOImpl;
+	
+	@Autowired
+	private SubPhaseDAO subPhaseDAOImpl;
 
 	@Transactional
 	public TaskDVO initTask() {
@@ -87,6 +108,38 @@ public class TaskServiceImpl  {
 		}
 		
 		return taskDVOs;
+	}
+
+	public List<TaskActivityDetailsDVO> viewActivity(TaskDVO taskDVO) {
+		List<TaskActivityDetailsDVO> taskActivityDetailsDVOs = new ArrayList<>();
+		List<TaskActivityMapper> taskActivityMappers = taskActivityMapperDAOImpl.findByTaskId(taskDVO.getTaskId());
+		if(taskActivityMappers!=null && !taskActivityMappers.isEmpty()){
+			for (TaskActivityMapper taskActivityMapper : taskActivityMappers) {
+				TaskActivitySchedule taskActivitySchedule = taskActivityScheduleDAOImpl.findByTaskActivityId(taskActivityMapper.getId());
+				TaskActivityDetailsDVO taskActivityDetailsDVO = new TaskActivityDetailsDVO();
+				Phas phas = phaseDAOImpl.findById(taskActivityMapper.getPhaseSubPhaseMapper().getPhas().getPhaseId(), false);
+				SubPhas subPhas = subPhaseDAOImpl.findById(taskActivityMapper.getPhaseSubPhaseMapper().getSubPhas().getSubPhaseId(), false);
+				
+				taskActivityDetailsDVO.setActivity(taskActivityMapper.getActivity().getActivityName());
+				taskActivityDetailsDVO.setTask(taskActivityMapper.getTask().getTaskName());
+				taskActivityDetailsDVO.setEstimatedHour(Integer.parseInt(taskActivityMapper.getEstimate()+""));
+				taskActivityDetailsDVO.setPhase(phas.getPhaseName());
+				taskActivityDetailsDVO.setSubPhase(subPhas.getSubPhaseName());
+				taskActivityDetailsDVO.setPlannedStartDate(taskActivitySchedule.getPlannedStartDate()+"");
+				taskActivityDetailsDVO.setPlannedEndDate(taskActivitySchedule.getPlannedEndDate()+"");
+				taskActivityDetailsDVO.setActualStartDate(taskActivitySchedule.getActualStartDate()+"");
+				taskActivityDetailsDVO.setActualEndDate(taskActivitySchedule.getActualEndDate()+"");
+				if("C".equalsIgnoreCase(taskActivitySchedule.getTaskActivityStatus())){
+					taskActivityDetailsDVO.setStatus("Completed");
+				}else{
+					taskActivityDetailsDVO.setStatus("In Progress");
+				}
+				taskActivityDetailsDVOs.add(taskActivityDetailsDVO);
+			}
+			
+		}
+		
+		return taskActivityDetailsDVOs;
 	}
 
 }

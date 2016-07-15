@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.demo.authorizer.dvo.EventInDVO;
 import com.demo.authorizer.dvo.EventOutDVO;
+import com.demo.authorizer.dvo.TaskActivityDetailsDVO;
 import com.demo.authorizer.dvo.TaskDVO;
 import com.demo.authorizer.dvo.TaskDetailsDVO;
 import com.demo.authorizer.dvo.TaskEstimationSheetDVO;
@@ -160,6 +161,13 @@ public class AuthorizerController {
 	@ResponseBody
 	public List<TaskDVO>  viewTaskDetails(TaskDVO taskDVO){
 		List<TaskDVO> taskDVOs = taskServiceImpl.getTaskDetails(taskDVO);
+		return taskDVOs;
+	}
+	
+	@RequestMapping("/viewactivity")
+	@ResponseBody
+	public List<TaskActivityDetailsDVO>  viewActivity(TaskDVO taskDVO){
+		List<TaskActivityDetailsDVO> taskDVOs = taskServiceImpl.viewActivity(taskDVO);
 		return taskDVOs;
 	}
 	

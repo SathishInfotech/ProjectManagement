@@ -35,10 +35,12 @@ $(document).on("change", '#projectId', function(e) {
 });
 </script>
 <body>
+<div class="ui middle aligned center aligned grid">
+<table  class="ui celled table" style="width: 80%"><tr><td>
 	<div class="column">
 		<h4 class="ui center aligned header">Create Task</h4>
 
-		<form class="ui form" name="TaskDVO" action="savetask">
+		<form class="ui large form" name="TaskDVO" action="savetask">
 			<div class="field">
 				<label>Project</label>  
 				<select	class="ui search dropdown" id="projectId" name="projectId">
@@ -61,8 +63,10 @@ $(document).on("change", '#projectId', function(e) {
 					<option value="4">User4</option>
 				</select>
 			</div>
-			<button class="ui button" type="submit">Submit</button>
+			<button class="small ui inverted right floated green button submit" type="submit">Submit</button>
 		</form>
 	</div>
+	</td></tr></table>
+</div>
 </body>
 </html>
