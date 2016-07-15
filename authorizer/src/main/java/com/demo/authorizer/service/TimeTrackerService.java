@@ -1,6 +1,5 @@
 package com.demo.authorizer.service;
 
-import java.util.Date;
 import java.util.List;
 
 import com.demo.authorizer.dvo.TimeTrackerDVO;
@@ -10,7 +9,7 @@ public interface TimeTrackerService {
 
     TimeTrackerDVO getInitDetails(int userId);
 
-    TimeTrackerDVO getAllTaskDetailsByUserIdandProjectId(int projectId,int userId,Date date);
+    TimeTrackerDVO getAllTaskDetailsByUserIdandProjectId(int userId,String date);
 
     // List<Phas> getAlPhases();
 

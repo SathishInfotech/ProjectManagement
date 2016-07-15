@@ -9,7 +9,7 @@ public class TimeTrackerDetailsDVO {
     private String activityId;
     private String phaseId;
     private String subphaseId;
-    private Long hoursSpent;
+    private String hoursSpent;
     private String remark;
     private String projectId;
     private String userId;
@@ -70,11 +70,11 @@ public class TimeTrackerDetailsDVO {
 	this.subphaseId = subphaseId;
     }
 
-    public Long getHoursSpent() {
+    public String getHoursSpent() {
 	return hoursSpent;
     }
 
-    public void setHoursSpent(Long hoursSpent) {
+    public void setHoursSpent(String hoursSpent) {
 	this.hoursSpent = hoursSpent;
     }
 

@@ -5,6 +5,14 @@
 <!DOCTYPE html >
 <html>
 <head>
+<style type="text/css">
+.ui-datepicker-calendar {
+	display: none;
+}
+.ui-datepicker .ui-datepicker-prev span, .ui-datepicker .ui-datepicker-next span{
+display:none;
+}
+</style>
 <script type="text/javascript" src="resources/js/viewtimetracker.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>TaskSheet</title>
@@ -41,7 +49,7 @@
 							</div></td>
 
 						<td><p>
-								<b>Select a Date:</b>
+								<b>Select a Month:</b>
 							</p></td>
 						<td></td>
 						<td><div class="field">
@@ -97,9 +105,19 @@
 		</table>
 	</div>
 	<script type="text/javascript">
-		$("#datepicker-input").datepicker({
-	        maxDate : 0
-        });
+		$("#datepicker-input").datepicker(
+                {
+                    changeMonth : true,
+                    showButtonPanel: true,
+                    dateFormat : 'm',
+                    onClose : function(dateText, inst) {
+	                    $(this).datepicker(
+	                            'setDate',
+	                            new Date(inst.selectedYear,
+	                                    inst.selectedMonth,
+	                                    1));
+                    }
+                });
 	</script>
 </body>
 </html>
