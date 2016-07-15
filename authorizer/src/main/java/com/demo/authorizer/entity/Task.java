@@ -28,7 +28,7 @@ public class Task implements Serializable {
 	private List<TaskActivityMapper> taskActivityMappers;
 
 	//bi-directional many-to-one association to User
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	private User user;
 
 	public Task() {

@@ -32,15 +32,16 @@ public class TimeTracker implements Serializable {
 	@Column(name="time_date")
 	private Date timeDate;
 
+	//bi-directional many-to-one association to TaskActivityMapper
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="task_activity_id")
+	private TaskActivityMapper taskActivityMapper;
+
 	//bi-directional many-to-one association to PhaseSubPhaseMapper
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="phase_sub_phase_id")
 	private PhaseSubPhaseMapper phaseSubPhaseMapper;
 
-	//bi-directional many-to-one association to TaskActivityMapper
-	@ManyToOne
-	@JoinColumn(name="task_activity_id")
-	private TaskActivityMapper taskActivityMapper;
 
 	public TimeTracker() {
 	}

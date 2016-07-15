@@ -26,12 +26,15 @@ import com.demo.authorizer.dvo.TaskEstimationSheetDVO;
 import com.demo.authorizer.dvo.TaskInfoDVO;
 import com.demo.authorizer.dvo.TaskSheetDVO;
 import com.demo.authorizer.service.impl.TaskServiceImpl;
+import com.demo.authorizer.service.TaskSheetService;
 
 @Controller
 public class AuthorizerController {
 	
 	@Autowired
 	TaskServiceImpl taskServiceImpl;
+	@Autowired
+	private TaskSheetService taskSheetService;
 
 	@RequestMapping("/home")
 	public String entry(){
@@ -132,13 +135,16 @@ public class AuthorizerController {
 		return events;
 	}
 	
-	@RequestMapping("saveTaskSheet")
-	public ModelAndView saveTaskSheet(@ModelAttribute TaskSheetDVO taskSheet, Principal principal){
-		System.out.println(principal.getName());
+	@RequestMapping("saveTaskEstSheet")
+	public ModelAndView saveTaskSheet(@ModelAttribute TaskEstimationSheetDVO taskSheet, Principal principal){
 		System.out.println(taskSheet);
-		ModelAndView mv = new ModelAndView("tasksheet", "taskSheet",taskSheet);
+		List<TaskInfoDVO> taskInfoDVOs = taskSheetService.generateSheet(taskSheet);
+		TaskEstimationSheetDVO updatedTaskEstimationSheetDVO = taskSheet;
+		updatedTaskEstimationSheetDVO.setTaskInfoDVOs(taskInfoDVOs);
+		ModelAndView mv = new ModelAndView("taskestimationdetails", "taskEstSheet", updatedTaskEstimationSheetDVO);
 		mv.addObject("disabled", "disabled");
 		mv.addObject("saveStatus", "Your task has been successfully saved");
+		System.out.println(updatedTaskEstimationSheetDVO);
 		return mv;
 	}
 	

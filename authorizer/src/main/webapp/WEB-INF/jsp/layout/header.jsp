@@ -7,30 +7,28 @@
 <head>
 <meta charset="UTF-8">
 <script type="text/javascript">
-$(document).ready(function() {
-    var navbar = $('#navbar-main'),
-    		distance = navbar.offset().top,
-        $window = $(window);
+	$(document).ready(function() {
+	    var navbar = $('#navbar-main'), distance = navbar.offset().top, $window = $(window);
 
-    $window.scroll(function() {
-        if ($window.scrollTop() >= distance) {
-            navbar.removeClass('navbar-fixed-top').addClass('navbar-fixed-top');
-          	$("body").css("padding-top", "70px");
-        } else {
-            navbar.removeClass('navbar-fixed-top');
-            $("body").css("padding-top", "0px");
-        }
+	    $window.scroll(function() {
+		    if ($window.scrollTop() >= distance) {
+			    navbar.removeClass('navbar-fixed-top').addClass('navbar-fixed-top');
+			    $("body").css("padding-top", "70px");
+		    } else {
+			    navbar.removeClass('navbar-fixed-top');
+			    $("body").css("padding-top", "0px");
+		    }
+	    });
+
     });
-	
-});
 </script>
 </head>
 <body>
-<!-- <div>
+	<!-- <div>
   <img src="resources/img/header.jpg" alt="Project Management"
 		title="Project Management" class="headerImg">
 </div> -->
-	
+
 	<nav class="navbar navbar-inverse navbar-static-top" id="navbar-main">
 		<div class="container-fluid">
 			<!-- Brand and toggle get grouped for better mobile display -->
@@ -43,7 +41,8 @@ $(document).ready(function() {
 						class="icon-bar"></span>
 				</button>
 				<a class="navbar-brand" href="home" style="margin-top: -5px;"><span><img
-						alt="Brand" src="resources/img/logo.png" style="width:32px;height:32px"></span>projectX</a>
+						alt="Brand" src="resources/img/logo.png"
+						style="width: 32px; height: 32px"></span>projectX</a>
 			</div>
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
@@ -52,11 +51,14 @@ $(document).ready(function() {
 				<ul class="nav navbar-nav">
 					<li><a href="home"><span class="glyphicon glyphicon-home"></span>
 							Home</a></li>
-					<li><a href="tasks"><i class="calendar icon"></i>
-							Calendar</a></li>
-					<li><a href="tasksheet"><span class="glyphicon glyphicon-time"></span>
-							TimeSheet</a></li>
-					<li><a href="teamresources"><i class="users icon"></i> 
+					<li><a href="tasks"><i class="calendar icon"></i> Calendar</a></li>
+					<li><a href="tasksheet"><span
+							class="glyphicon glyphicon-time"></span> TimeSheet</a></li>
+					<li><a href="timetracker"><span
+							class="glyphicon glyphicon-time"></span> TimeTracker</a></li>
+					<li><a href="viewtimetracker"><span
+							class="glyphicon glyphicon-time"></span>View TimeTracker</a></li>
+					<li><a href="teamresources"><i class="users icon"></i>
 							Resources</a></li>
 					<li><a href="createtask"><i class="tasks icon"></i> 
 							Create Task</a></li>

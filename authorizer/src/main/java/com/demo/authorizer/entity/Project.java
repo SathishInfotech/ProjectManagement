@@ -4,78 +4,90 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
 /**
  * The persistent class for the project database table.
  * 
  */
 @Entity
-@NamedQuery(name="Project.findAll", query="SELECT p FROM Project p")
+@NamedQuery(name = "Project.findAll", query = "SELECT p FROM Project p")
 public class Project implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="project_id")
-	private int projectId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "project_id")
+    private int projectId;
 
-	@Column(name="project_desc")
-	private String projectDesc;
+    @Column(name = "project_desc")
+    private String projectDesc;
 
-	@Column(name="project_name")
-	private String projectName;
+    @Column(name = "project_name")
+    private String projectName;
 
-	//bi-directional many-to-one association to ProjectUser
-	@OneToMany(mappedBy="project")
-	private List<ProjectUser> projectUsers;
+    // bi-directional many-to-many association to User
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "project_users", joinColumns = { @JoinColumn(name = "project_id") }, inverseJoinColumns = { @JoinColumn(name = "id") })
+    private List<User> users;
 
-	public Project() {
-	}
+    // bi-directional many-to-one association to ProjectUser
+    @OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
+    private List<ProjectUser> projectUsers;
 
-	public int getProjectId() {
-		return this.projectId;
-	}
+    public Project() {
+    }
 
-	public void setProjectId(int projectId) {
-		this.projectId = projectId;
-	}
+    public List<User> getUsers() {
+	return users;
+    }
 
-	public String getProjectDesc() {
-		return this.projectDesc;
-	}
+    public void setUsers(List<User> users) {
+	this.users = users;
+    }
 
-	public void setProjectDesc(String projectDesc) {
-		this.projectDesc = projectDesc;
-	}
+    public int getProjectId() {
+	return this.projectId;
+    }
 
-	public String getProjectName() {
-		return this.projectName;
-	}
+    public void setProjectId(int projectId) {
+	this.projectId = projectId;
+    }
 
-	public void setProjectName(String projectName) {
-		this.projectName = projectName;
-	}
+    public String getProjectDesc() {
+	return this.projectDesc;
+    }
 
-	public List<ProjectUser> getProjectUsers() {
-		return this.projectUsers;
-	}
+    public void setProjectDesc(String projectDesc) {
+	this.projectDesc = projectDesc;
+    }
 
-	public void setProjectUsers(List<ProjectUser> projectUsers) {
-		this.projectUsers = projectUsers;
-	}
+    public String getProjectName() {
+	return this.projectName;
+    }
 
-	public ProjectUser addProjectUser(ProjectUser projectUser) {
-		getProjectUsers().add(projectUser);
-		projectUser.setProject(this);
+    public void setProjectName(String projectName) {
+	this.projectName = projectName;
+    }
 
-		return projectUser;
-	}
+    public List<ProjectUser> getProjectUsers() {
+	return this.projectUsers;
+    }
 
-	public ProjectUser removeProjectUser(ProjectUser projectUser) {
-		getProjectUsers().remove(projectUser);
-		projectUser.setProject(null);
+    public void setProjectUsers(List<ProjectUser> projectUsers) {
+	this.projectUsers = projectUsers;
+    }
 
-		return projectUser;
-	}
+    public ProjectUser addProjectUser(ProjectUser projectUser) {
+	getProjectUsers().add(projectUser);
+	projectUser.setProject(this);
+
+	return projectUser;
+    }
+
+    public ProjectUser removeProjectUser(ProjectUser projectUser) {
+	getProjectUsers().remove(projectUser);
+	projectUser.setProject(null);
+
+	return projectUser;
+    }
 
 }

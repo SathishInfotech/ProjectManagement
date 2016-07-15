@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * GenericDAO is an interface and it is extends Serializable interface.
- * It is a generic interface for dao  for performing the CURD operations. 
+ * GenericDAO is an interface and it is extends Serializable interface. It is a
+ * generic interface for dao for performing the CURD operations.
  * 
  * @author LnT Infotech
  * @version 0.1
@@ -14,15 +14,17 @@ import java.util.List;
  */
 public interface GenericDAO<T, ID extends Serializable> {
 
-	T findById(ID id, boolean lock);
+    T findById(ID id, boolean lock);
 
-	List<T> findAll();
+    List<T> findAll();
 
-	T save(T entity);
+    T save(T entity);
 
-	T saveOrUpdate(T entity);
+    boolean saveList(List<T> entities);
 
-	T update(T entity);
+    T saveOrUpdate(T entity);
 
-	void delete(T entity);
+    T update(T entity);
+
+    void delete(T entity);
 }

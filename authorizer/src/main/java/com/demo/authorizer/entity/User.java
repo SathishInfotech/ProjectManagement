@@ -1,141 +1,158 @@
 package com.demo.authorizer.entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  * The persistent class for the users database table.
  * 
  */
 @Entity
-@Table(name="users")
-@NamedQuery(name="User.findAll", query="SELECT u FROM User u")
+@Table(name = "users")
+@NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
 public class User implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
 
-	private boolean enabled;
+    private boolean enabled;
 
-	private String password;
+    private String password;
 
-	private String username;
+    private String username;
 
-	//bi-directional many-to-one association to ProjectUser
-	@OneToMany(mappedBy="user")
-	private List<ProjectUser> projectUsers;
+    // bi-directional many-to-one association to UserRole
+    @OneToMany(mappedBy = "user")
+    private List<UserRole> userRoles;
 
-	//bi-directional many-to-one association to Task
-	@OneToMany(mappedBy="user")
-	private List<Task> tasks;
+    // bi-directional many-to-many association to Project
+    @ManyToMany(mappedBy = "users")
+    private List<Project> projects;
 
-	//bi-directional many-to-one association to UserRole
-	@OneToMany(mappedBy="user")
-	private List<UserRole> userRoles;
+    // bi-directional many-to-one association to ProjectUser
+    @OneToMany(mappedBy = "user1")
+    private List<ProjectUser> projectUsers1;
 
-	public User() {
-	}
+    // bi-directional many-to-one association to Task
+    @OneToMany(mappedBy = "user")
+    private List<Task> tasks;
 
-	public int getId() {
-		return this.id;
-	}
+/*    @Column(name = "user_id")
+    private String userId;
+*/
+/*    public String getUserId() {
+	return userId;
+    }
+*/
+    public List<Project> getProjects() {
+	return projects;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public void setProjects(List<Project> projects) {
+	this.projects = projects;
+    }
 
-	public boolean isEnabled() {
-		return enabled;
-	}
+    public List<ProjectUser> getProjectUsers1() {
+	return projectUsers1;
+    }
 
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
+    public void setProjectUsers1(List<ProjectUser> projectUsers1) {
+	this.projectUsers1 = projectUsers1;
+    }
 
-	public String getPassword() {
-		return this.password;
-	}
+    public List<Task> getTasks() {
+	return tasks;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public void setTasks(List<Task> tasks) {
+	this.tasks = tasks;
+    }
 
-	public String getUsername() {
-		return this.username;
-	}
+ /*   public void setUserId(String userId) {
+	this.userId = userId;
+    }
+*/
+    public User() {
+    }
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    public int getId() {
+	return this.id;
+    }
 
-	public List<ProjectUser> getProjectUsers() {
-		return this.projectUsers;
-	}
+    public void setId(int id) {
+	this.id = id;
+    }
 
-	public void setProjectUsers(List<ProjectUser> projectUsers) {
-		this.projectUsers = projectUsers;
-	}
+    public boolean isEnabled() {
+	return enabled;
+    }
 
-	public ProjectUser addProjectUser(ProjectUser projectUser) {
-		getProjectUsers().add(projectUser);
-		projectUser.setUser(this);
+    public void setEnabled(boolean enabled) {
+	this.enabled = enabled;
+    }
 
-		return projectUser;
-	}
+    public String getPassword() {
+	return this.password;
+    }
 
-	public ProjectUser removeProjectUser(ProjectUser projectUser) {
-		getProjectUsers().remove(projectUser);
-		projectUser.setUser(null);
+    public void setPassword(String password) {
+	this.password = password;
+    }
 
-		return projectUser;
-	}
+    public String getUsername() {
+	return this.username;
+    }
 
-	public List<Task> getTasks() {
-		return this.tasks;
-	}
+    public void setUsername(String username) {
+	this.username = username;
+    }
 
-	public void setTasks(List<Task> tasks) {
-		this.tasks = tasks;
-	}
+    public List<UserRole> getUserRoles() {
+	return this.userRoles;
+    }
 
-	public Task addTask(Task task) {
-		getTasks().add(task);
-		task.setUser(this);
+    public void setUserRoles(List<UserRole> userRoles) {
+	this.userRoles = userRoles;
+    }
 
-		return task;
-	}
+    public UserRole addUserRole(UserRole userRole) {
+	getUserRoles().add(userRole);
+	userRole.setUser(this);
 
-	public Task removeTask(Task task) {
-		getTasks().remove(task);
-		task.setUser(null);
+	return userRole;
+    }
 
-		return task;
-	}
+    public UserRole removeUserRole(UserRole userRole) {
+	getUserRoles().remove(userRole);
+	userRole.setUser(null);
 
-	public List<UserRole> getUserRoles() {
-		return this.userRoles;
-	}
+	return userRole;
+    }
 
-	public void setUserRoles(List<UserRole> userRoles) {
-		this.userRoles = userRoles;
-	}
+    public ProjectUser addProjectUsers1(ProjectUser projectUsers1) {
+	getProjectUsers1().add(projectUsers1);
+	projectUsers1.setUser1(this);
 
-	public UserRole addUserRole(UserRole userRole) {
-		getUserRoles().add(userRole);
-		userRole.setUser(this);
+	return projectUsers1;
+    }
 
-		return userRole;
-	}
+    public ProjectUser removeProjectUsers1(ProjectUser projectUsers1) {
+	getProjectUsers1().remove(projectUsers1);
+	projectUsers1.setUser1(null);
 
-	public UserRole removeUserRole(UserRole userRole) {
-		getUserRoles().remove(userRole);
-		userRole.setUser(null);
-
-		return userRole;
-	}
+	return projectUsers1;
+    }
 
 }
