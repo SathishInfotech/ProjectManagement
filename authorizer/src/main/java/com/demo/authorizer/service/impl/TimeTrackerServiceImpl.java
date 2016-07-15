@@ -1,7 +1,7 @@
 package com.demo.authorizer.service.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -15,7 +15,6 @@ import com.demo.authorizer.dao.TaskDAO;
 import com.demo.authorizer.dao.TimeTrackerDAO;
 import com.demo.authorizer.dvo.TimeTrackerDVO;
 import com.demo.authorizer.dvo.TimeTrackerDetailsDVO;
-import com.demo.authorizer.entity.Activity;
 import com.demo.authorizer.entity.Phas;
 import com.demo.authorizer.entity.PhaseSubPhaseMapper;
 import com.demo.authorizer.entity.Project;
@@ -26,6 +25,7 @@ import com.demo.authorizer.entity.TaskActivityMapper;
 import com.demo.authorizer.entity.TimeTracker;
 import com.demo.authorizer.entity.User;
 import com.demo.authorizer.service.TimeTrackerService;
+import com.demo.authorizer.utils.DateUtils;
 
 @Service
 public class TimeTrackerServiceImpl implements TimeTrackerService {
@@ -43,6 +43,7 @@ public class TimeTrackerServiceImpl implements TimeTrackerService {
     private ProjectDAO projectDAO;
 
     @Override
+    @Transactional
     public boolean saveTimeTrackerDetails(List<TimeTrackerDetailsDVO> timeTrackerDetailsDVO) {
 	List<TimeTracker> timeTrackerList = new ArrayList<TimeTracker>();
 	if (timeTrackerDetailsDVO != null) {
@@ -50,11 +51,8 @@ public class TimeTrackerServiceImpl implements TimeTrackerService {
 	    for (int i = 0; i < listSize; i++) {
 		TimeTracker timeTracker = new TimeTracker();
 		timeTracker.setComments(timeTrackerDetailsDVO.get(i).getRemark());
-		/*
-		 * timeTracker.setHoursSpent(Double.valueOf(timeTrackerDetailsDVO
-		 * .get(i).getHoursSpent())); timeTracker.setId(id);
-		 * timeTracker.setTimeDate(timeTrackerDetailsDVO.get(i));
-		 */
+		timeTracker.setHoursSpent(BigDecimal.valueOf(Long.parseLong(timeTrackerDetailsDVO.get(i).getHoursSpent())));
+		timeTracker.setTimeDate(DateUtils.parseStringtoDateddmmyyyy(timeTrackerDetailsDVO.get(i).getTimeDate()));
 		timeTracker = populateTimeTracker(timeTrackerDetailsDVO.get(i), timeTracker);
 		timeTrackerList.add(timeTracker);
 	    }
@@ -63,22 +61,27 @@ public class TimeTrackerServiceImpl implements TimeTrackerService {
     }
 
     private TimeTracker populateTimeTracker(TimeTrackerDetailsDVO timeTrackerDetailsDVO, TimeTracker timeTracker) {
-	Phas phase = new Phas();
-	phase.setPhaseId(Integer.valueOf(timeTrackerDetailsDVO.getPhaseId().trim()));
+	User user = new User();
+	user.setId(Integer.valueOf(timeTrackerDetailsDVO.getUserId().trim()));
+	Phas phase=phaseDAO.findById(Integer.valueOf(timeTrackerDetailsDVO.getPhaseId().trim()), false);
+	Integer subphaseId=Integer.valueOf(timeTrackerDetailsDVO.getSubphaseId());
+	List<PhaseSubPhaseMapper> phasesubphaseList=phase.getPhaseSubPhaseMappers();
+	for(PhaseSubPhaseMapper phaseMapper:phasesubphaseList){
+	    if(phaseMapper.getSubPhas().getSubPhaseId()==subphaseId){
+		timeTracker.setPhaseSubPhaseMapper(phaseMapper);
+	    }
+	}
 	SubPhas subPhase = new SubPhas();
 	subPhase.setSubPhaseId(Integer.valueOf(timeTrackerDetailsDVO.getSubphaseId().trim()));
-	PhaseSubPhaseMapper phaseMapper = new PhaseSubPhaseMapper();
-	phaseMapper.setPhas(phase);
-	phaseMapper.setSubPhas(subPhase);
-	timeTracker.setPhaseSubPhaseMapper(phaseMapper);
-	Task task = new Task();
-	task.setTaskId(Integer.valueOf(timeTrackerDetailsDVO.getTaskId().trim()));
-	Activity activity = new Activity();
-	activity.setActivityId(Integer.valueOf(timeTrackerDetailsDVO.getActivityId().trim()));
-	TaskActivityMapper taskActivityMapper = new TaskActivityMapper();
-	taskActivityMapper.setActivity(activity);
-	taskActivityMapper.setTask(task);
-	timeTracker.setTaskActivityMapper(taskActivityMapper);
+	Task task=taskDAO.findById(Integer.valueOf(timeTrackerDetailsDVO.getTaskId().trim()), false);
+	Integer activityId=Integer.valueOf(timeTrackerDetailsDVO.getActivityId().trim());
+	List<TaskActivityMapper> taskActivityMapperList=task.getTaskActivityMappers();
+	for(TaskActivityMapper taskActivityMapper:taskActivityMapperList){
+	    if(taskActivityMapper.getActivity().getActivityId()==activityId){
+		timeTracker.setTaskActivityMapper(taskActivityMapper);
+	    }
+	}
+	timeTracker.setUser(user);
 	return timeTracker;
     }
 
@@ -136,7 +139,8 @@ public class TimeTrackerServiceImpl implements TimeTrackerService {
     }
 
     @Override
-    public TimeTrackerDVO getAllTaskDetailsByUserIdandProjectId(int projectId, int userId, Date date) {
+    @Transactional
+    public TimeTrackerDVO getAllTaskDetailsByUserIdandProjectId(int userId, String date) {
 	// TODO Auto-generated method stub
 	return null;
     }

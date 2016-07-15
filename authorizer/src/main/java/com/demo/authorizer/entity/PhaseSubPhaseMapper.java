@@ -25,7 +25,7 @@ public class PhaseSubPhaseMapper implements Serializable {
 	private Phas phas;
 
 	//bi-directional many-to-one association to SubPhas
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="sub_phase_id")
 	private SubPhas subPhas;
 
