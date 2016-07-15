@@ -14,7 +14,7 @@ public class TaskActivityScheduleDAOImpl extends GenericDAOImpl<TaskActivitySche
 	}
 
 	@Override
-	public TaskActivitySchedule findByTaskActivityId(Integer taskId) {
+	public TaskActivitySchedule findByTaskActivityId(int taskId) {
 		
 		 return findByCriteria(Restrictions.eq("taskActivityMapper.id", taskId)).get(0);
 	}

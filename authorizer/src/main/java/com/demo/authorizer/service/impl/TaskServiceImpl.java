@@ -110,6 +110,7 @@ public class TaskServiceImpl  {
 		return taskDVOs;
 	}
 
+	@Transactional
 	public List<TaskActivityDetailsDVO> viewActivity(TaskDVO taskDVO) {
 		List<TaskActivityDetailsDVO> taskActivityDetailsDVOs = new ArrayList<>();
 		List<TaskActivityMapper> taskActivityMappers = taskActivityMapperDAOImpl.findByTaskId(taskDVO.getTaskId());

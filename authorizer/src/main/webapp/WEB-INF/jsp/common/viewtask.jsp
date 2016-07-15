@@ -49,7 +49,7 @@ $(document).on("click", '#viewTaskIdBtn', function(e) {
             $el.empty(); // remove old options
             var data = json;
             for(i=0; i<data.length; i++) {
-                 $el.append("<tr><td>"+data[i].taskName+"</td><td>In Progress</td><td><button class='ui green button' type='button' class='tskDtsView' id='detailsBtn_"+data[i].taskId+"'>View</button></td></tr>");
+                 $el.append("<tr><td>"+data[i].taskName+"</td><td>In Progress</td><td><button class='ui green button tskDtsView' type='button' class='tskDtsView' id='detailsBtn_"+data[i].taskId+"'>View</button></td></tr>");
                }
             $('#taskTabl').css('display','block');
             $('#taskTabl').show();
