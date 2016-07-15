@@ -11,17 +11,6 @@ import com.demo.authorizer.entity.Task;
 @Repository
 public class TaskDAOImpl extends GenericDAOImpl<Task, Integer> implements TaskDAO {
 
-<<<<<<< HEAD
-	public TaskDAOImpl() {
-		super.setEntityClass(Task.class);
-	}
-
-	@Override
-	public List<Task> getTaskByUser(int userId) {
-		 return findByCriteria(Restrictions.eq("user.id", userId));
-	}
-	
-=======
     public TaskDAOImpl() {
 	super.setEntityClass(Task.class);
 }
@@ -35,5 +24,4 @@ public class TaskDAOImpl extends GenericDAOImpl<Task, Integer> implements TaskDA
 	    return null;
     }
 
->>>>>>> branch 'master' of https://github.com/SathishInfotech/ProjectManagement.git
 }

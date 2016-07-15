@@ -7,15 +7,7 @@ import com.demo.authorizer.entity.Project;
 
 @Repository
 public class ProjectDAOImpl extends GenericDAOImpl<Project, Integer> implements ProjectDAO {
-<<<<<<< HEAD
-
-	public ProjectDAOImpl() {
-		super.setEntityClass(Project.class);
-	}
-	
-=======
     public ProjectDAOImpl() {
 	super.setEntityClass(Project.class);
     }
->>>>>>> branch 'master' of https://github.com/SathishInfotech/ProjectManagement.git
 }
