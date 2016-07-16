@@ -80,27 +80,18 @@ display:none;
 				</tr>
 			</thead>
 			<tbody>
+			<c:forEach items="${viewTimetrackerDetails.timeTrackerDetailsDVOs}" var="timetrker">
 				<tr>
-					<td>1</td>
-					<td>2</td>
-					<td>3</td>
-					<td>4</td>
-					<td>5</td>
-					<td>6</td>
-					<td>7</td>
+					<td>${timetrker.timeDate}</td>
+					<td>${timetrker.taskId}</td>
+					<td>${timetrker.activityId}</td>
+					<td>${timetrker.phaseId}</td>
+					<td>${timetrker.subphaseId}</td>
+					<td>${timetrker.hoursSpent}</td>
+					<td>${timetrker.remark}</td>
 
 				</tr>
-				<tr>
-					<td>1</td>
-					<td>2</td>
-					<td>3</td>
-					<td>4</td>
-					<td>5</td>
-					<td>6</td>
-					<td>7</td>
-
-				</tr>
-
+				</c:forEach>
 			</tbody>
 		</table>
 	</div>

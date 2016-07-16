@@ -77,9 +77,9 @@ public class TimeTrackerController {
     @RequestMapping(value = "/viewtimetracker", method = RequestMethod.POST)
     public String postViewTimeTracker(Model model, TimeTrackerDetailsDVO timeTrackerDetailsDVO) {
 	TimeTrackerDVO timeTrackerDVO=timeTrackerService.getAllTaskDetailsByUserIdandProjectId(Integer.valueOf(timeTrackerDetailsDVO.getUserId()), timeTrackerDetailsDVO.getTimeDate());
+	model.addAttribute("viewTimetrackerDetails",timeTrackerDVO);
 	TimeTrackerDVO timeTrackerRespDVO = timeTrackerService.getAlProjects();
 	model.addAttribute("timetracker", timeTrackerRespDVO);
-	model.addAttribute("viewTimetrackerDetails",timeTrackerDVO);
 	return "viewtimetracker";
     }
 
