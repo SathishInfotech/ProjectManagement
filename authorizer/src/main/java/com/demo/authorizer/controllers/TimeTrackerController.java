@@ -55,7 +55,6 @@ public class TimeTrackerController {
 
     @RequestMapping(value = "/viewtimetracker", method = RequestMethod.GET)
     public String getViewTimeTracker(Model model) {
-	System.out.println("get view time tracker");
 	TimeTrackerDVO timeTrackerDVO = timeTrackerService.getAlProjects();
 	model.addAttribute("timetracker", timeTrackerDVO);
 	return "viewtimetracker";
@@ -67,9 +66,7 @@ public class TimeTrackerController {
 	if ("".equals(projectid.trim())) {
 	    return null;
 	} else {
-	    System.out.println("get view time tracker" + projectid);
 	    TimeTrackerDVO timeTrackerDVO = timeTrackerService.getUserByProject(Integer.valueOf(projectid));
-	    System.out.println("Users Details:" + timeTrackerDVO.getUsers());
 	    return timeTrackerDVO;
 	}
     }
