@@ -1,7 +1,6 @@
 package com.demo.authorizer.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,34 +20,55 @@ public class TimeTrackerController {
     private TimeTrackerService timeTrackerService;
 
     @RequestMapping(value = "/timetracker", method = RequestMethod.GET)
-    public String getTimeTracker(Model model) {
-	TimeTrackerDVO timeTrackerDVO = timeTrackerService.getInitDetails(1);
+    public String getTimeTracker(Model model,HttpSession session) {
+	int userid=1;
+	TimeTrackerDVO timeTrackerDVO = timeTrackerService.getInitDetails(userid);
 	model.addAttribute("timetracker", timeTrackerDVO);
 	return "timetracker";
     }
 
-    @RequestMapping(value = "saveTimeTracker", method = RequestMethod.GET)
-    public String saveTimeTracker(/*TimeTrackerDVO timeTrackerDVO,*/ Model model) {
-	TimeTrackerDetailsDVO timeTrackerDetailsDVO=new TimeTrackerDetailsDVO();
-	timeTrackerDetailsDVO.setActivityId("1");
-	timeTrackerDetailsDVO.setHoursSpent("20");
-	timeTrackerDetailsDVO.setPhaseId("3");
-	timeTrackerDetailsDVO.setSubphaseId("1");
-	timeTrackerDetailsDVO.setTaskId("1");
-	timeTrackerDetailsDVO.setUserId("1");
-	timeTrackerDetailsDVO.setRemark("time sheet filled");
-	timeTrackerDetailsDVO.setTimeDate("12-02-2016");
-	List<TimeTrackerDetailsDVO> timeTrackerDetailsList=new ArrayList<TimeTrackerDetailsDVO>();
-	timeTrackerDetailsList.add(timeTrackerDetailsDVO);
-	TimeTrackerDVO timeTrackerDVO=new TimeTrackerDVO();
-	timeTrackerDVO.setTimeTrackerDetailsDVOs(timeTrackerDetailsList);
-	boolean response = timeTrackerService.saveTimeTrackerDetails(timeTrackerDVO.getTimeTrackerDetailsDVOs());
+    @RequestMapping(value = "/getTimeTrckerforDropdown", method = RequestMethod.GET)
+    @ResponseBody
+    public TimeTrackerDVO getUsersByProject(HttpSession session) {
+	int userid=1;
+	TimeTrackerDVO timeTrackerDVO = timeTrackerService.getInitDetails(userid);
+	return timeTrackerDVO;
+    }
+
+    @RequestMapping(value = "/getActicitiesByTaskId", method = RequestMethod.GET)
+    @ResponseBody
+    public TimeTrackerDVO getActicitiesByTaskId(String taskid) {
+	if ("".equals(taskid.trim())) {
+	    return null;
+	} else {
+	    TimeTrackerDVO timeTrackerDVO = timeTrackerService.getActicitiesByTaskId(Integer.valueOf(taskid));
+	    return timeTrackerDVO;
+	}
+    }
+
+    @RequestMapping(value = "/getSubphasesByPhasId", method = RequestMethod.GET)
+    @ResponseBody
+    public TimeTrackerDVO getSubphasesByPhasId(String phaseid) {
+	if ("".equals(phaseid.trim())) {
+	    return null;
+	} else {
+	    TimeTrackerDVO timeTrackerDVO = timeTrackerService.getSubphasesByPhasId(Integer.valueOf(phaseid));
+	    return timeTrackerDVO;
+	}
+    }
+
+    @RequestMapping(value = "/saveTimeTracker", method = RequestMethod.POST)
+    public String saveTimeTracker(TimeTrackerDVO timeTrackerDVO,Model model,HttpSession session) {
+	int userid=1;
+	boolean response = timeTrackerService.saveTimeTrackerDetails(timeTrackerDVO.getTimeTrackerDetailsDVOs(),userid);
 	if (response) {
-	    TimeTrackerDVO timetracker = timeTrackerService.getInitDetails(1);
+	    TimeTrackerDVO timetracker = timeTrackerService.getInitDetails(userid);
 	    model.addAttribute("timetracker", timetracker);
-	    model.addAttribute("saveStatus", "Your task has been successfully saved");
+	    model.addAttribute("saveStatus", "Your Timetracker has been successfully saved");
+	    model.addAttribute("status", "Success:");
 	} else {
 	    model.addAttribute("saveStatus", "Error has been occured while saving details");
+	    model.addAttribute("status", "Error:");
 	}
 	return "timetracker";
     }
@@ -73,11 +93,10 @@ public class TimeTrackerController {
 
     @RequestMapping(value = "/viewtimetracker", method = RequestMethod.POST)
     public String postViewTimeTracker(Model model, TimeTrackerDetailsDVO timeTrackerDetailsDVO) {
-	TimeTrackerDVO timeTrackerDVO=timeTrackerService.getAllTaskDetailsByUserIdandProjectId(Integer.valueOf(timeTrackerDetailsDVO.getUserId()), timeTrackerDetailsDVO.getTimeDate());
-	model.addAttribute("viewTimetrackerDetails",timeTrackerDVO);
+	TimeTrackerDVO timeTrackerDVO = timeTrackerService.getAllTaskDetailsByUserIdandProjectId(Integer.valueOf(timeTrackerDetailsDVO.getUserId()), timeTrackerDetailsDVO.getTimeDate());
+	model.addAttribute("viewTimetrackerDetails", timeTrackerDVO);
 	TimeTrackerDVO timeTrackerRespDVO = timeTrackerService.getAlProjects();
 	model.addAttribute("timetracker", timeTrackerRespDVO);
 	return "viewtimetracker";
     }
-
 }

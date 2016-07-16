@@ -44,25 +44,30 @@ public class TimeTrackerServiceImpl implements TimeTrackerService {
 
     @Override
     @Transactional
-    public boolean saveTimeTrackerDetails(List<TimeTrackerDetailsDVO> timeTrackerDetailsDVO) {
-	List<TimeTracker> timeTrackerList = new ArrayList<TimeTracker>();
-	if (timeTrackerDetailsDVO != null) {
-	    int listSize = timeTrackerDetailsDVO.size();
-	    for (int i = 0; i < listSize; i++) {
-		TimeTracker timeTracker = new TimeTracker();
-		timeTracker.setComments(timeTrackerDetailsDVO.get(i).getRemark());
-		timeTracker.setHoursSpent(BigDecimal.valueOf(Long.parseLong(timeTrackerDetailsDVO.get(i).getHoursSpent())));
-		timeTracker.setTimeDate(DateUtils.parseStringtoDateddmmyyyy(timeTrackerDetailsDVO.get(i).getTimeDate()));
-		timeTracker = populateTimeTracker(timeTrackerDetailsDVO.get(i), timeTracker);
-		timeTrackerList.add(timeTracker);
+    public boolean saveTimeTrackerDetails(List<TimeTrackerDetailsDVO> timeTrackerDetailsDVOs, int userid) {
+	try {
+	    List<TimeTracker> timeTrackerList = new ArrayList<TimeTracker>();
+	    if (timeTrackerDetailsDVOs != null) {
+		for (TimeTrackerDetailsDVO timeTrackerDetailsDVO:timeTrackerDetailsDVOs) {
+		    TimeTracker timeTracker = new TimeTracker();
+		    timeTracker.setComments(timeTrackerDetailsDVO.getRemark());
+		    timeTracker.setHoursSpent(BigDecimal.valueOf(Long.parseLong(timeTrackerDetailsDVO.getHoursSpent())));
+		    timeTracker.setTimeDate(DateUtils.parseStringtoDateddmmyyyy(timeTrackerDetailsDVO.getTimeDate()));
+		    User user = new User();
+		    user.setId(userid);
+		    timeTracker.setUser(user);
+		    timeTracker = populateTimeTracker(timeTrackerDetailsDVO, timeTracker);
+		    timeTrackerList.add(timeTracker);
+		}
 	    }
+	    return timeTrackerDAO.saveList(timeTrackerList);
+	} catch (Exception e) {
+	    e.printStackTrace();
+	    return false;
 	}
-	return timeTrackerDAO.saveList(timeTrackerList);
     }
 
     private TimeTracker populateTimeTracker(TimeTrackerDetailsDVO timeTrackerDetailsDVO, TimeTracker timeTracker) {
-	User user = new User();
-	user.setId(Integer.valueOf(timeTrackerDetailsDVO.getUserId().trim()));
 	Phas phase = phaseDAO.findById(Integer.valueOf(timeTrackerDetailsDVO.getPhaseId().trim()), false);
 	Integer subphaseId = Integer.valueOf(timeTrackerDetailsDVO.getSubphaseId());
 	List<PhaseSubPhaseMapper> phasesubphaseList = phase.getPhaseSubPhaseMappers();
@@ -81,7 +86,6 @@ public class TimeTrackerServiceImpl implements TimeTrackerService {
 		timeTracker.setTaskActivityMapper(taskActivityMapper);
 	    }
 	}
-	timeTracker.setUser(user);
 	return timeTracker;
     }
 
@@ -143,11 +147,11 @@ public class TimeTrackerServiceImpl implements TimeTrackerService {
     public TimeTrackerDVO getAllTaskDetailsByUserIdandProjectId(int userId, String date) {
 	TimeTrackerDVO timeTrackerDVO = new TimeTrackerDVO();
 	List<TimeTrackerDetailsDVO> timeTrackerDetailsDVOList = new ArrayList<TimeTrackerDetailsDVO>();
-	TimeTrackerDetailsDVO timeTrackerDetails = new TimeTrackerDetailsDVO();
 	List<TimeTracker> timetrackerList = timeTrackerDAO.getTimeTrackerDetailsByProjectandUser(userId, Integer.valueOf(date));
 	if (timetrackerList != null) {
 	    for (TimeTracker timeTracker : timetrackerList) {
-		timeTrackerDetails.setTimeDate(String.valueOf(timeTracker.getTimeDate()));
+		TimeTrackerDetailsDVO timeTrackerDetails = new TimeTrackerDetailsDVO();
+		timeTrackerDetails.setTimeDate(DateUtils.parseDatetoStringddmmyyy(timeTracker.getTimeDate()));
 		timeTrackerDetails.setActivityId(timeTracker.getTaskActivityMapper().getActivity().getActivityName());
 		timeTrackerDetails.setTaskId(timeTracker.getTaskActivityMapper().getTask().getTaskName());
 		timeTrackerDetails.setPhaseId(timeTracker.getPhaseSubPhaseMapper().getPhas().getPhaseName());
@@ -162,5 +166,37 @@ public class TimeTrackerServiceImpl implements TimeTrackerService {
 	} else {
 	    return timeTrackerDVO;
 	}
+    }
+
+    @Override
+    @Transactional
+    public TimeTrackerDVO getActicitiesByTaskId(int taskId) {
+	TimeTrackerDVO timeTrackerDVO = new TimeTrackerDVO();
+	Task task = taskDAO.findById(taskId, false);
+	if (task != null) {
+	    List<TaskActivityMapper> taskActivityMapperList = task.getTaskActivityMappers();
+	    HashMap<Integer, String> userActivity = new HashMap<Integer, String>();
+	    for (TaskActivityMapper taskActivityMapper : taskActivityMapperList) {
+		userActivity.put(taskActivityMapper.getActivity().getActivityId(), taskActivityMapper.getActivity().getActivityName());
+	    }
+	    timeTrackerDVO.setActivities(userActivity);
+	}
+	return timeTrackerDVO;
+    }
+
+    @Override
+    @Transactional
+    public TimeTrackerDVO getSubphasesByPhasId(int phaseId) {
+	TimeTrackerDVO timeTrackerDVO = new TimeTrackerDVO();
+	Phas phase = phaseDAO.findById(phaseId, false);
+	if (phase != null) {
+	    List<PhaseSubPhaseMapper> subphaseList = phase.getPhaseSubPhaseMappers();
+	    HashMap<Integer, String> subPhases = new HashMap<Integer, String>();
+	    for (PhaseSubPhaseMapper phaseSubPhaseMapper : subphaseList) {
+		subPhases.put(phaseSubPhaseMapper.getSubPhas().getSubPhaseId(), phaseSubPhaseMapper.getSubPhas().getSubPhaseName());
+	    }
+	    timeTrackerDVO.setSubPhases(subPhases);
+	}
+	return timeTrackerDVO;
     }
 }

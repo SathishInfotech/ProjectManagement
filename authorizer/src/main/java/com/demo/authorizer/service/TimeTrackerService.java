@@ -10,13 +10,15 @@ public interface TimeTrackerService {
     TimeTrackerDVO getInitDetails(int userId);
 
     TimeTrackerDVO getAllTaskDetailsByUserIdandProjectId(int userId,String date);
-
-    // List<Phas> getAlPhases();
+    
+    TimeTrackerDVO getActicitiesByTaskId(int taskId);
+    
+    TimeTrackerDVO getSubphasesByPhasId(int phaseId);
 
     TimeTrackerDVO getAlProjects();
     
     TimeTrackerDVO getUserByProject(int projectId);
 
-    boolean saveTimeTrackerDetails(List<TimeTrackerDetailsDVO> timeTrackerDetailsDVO);
+    boolean saveTimeTrackerDetails(List<TimeTrackerDetailsDVO> timeTrackerDetailsDVO,int userid);
 
 }

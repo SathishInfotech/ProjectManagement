@@ -14,6 +14,28 @@ public class TimeTrackerDVO {
     private HashMap<Integer, String> projects;
 
     private HashMap<Integer, String> users;
+    
+    private HashMap<Integer, String> activities;
+    
+    private HashMap<Integer, String> subPhases;
+    
+    
+
+    public HashMap<Integer, String> getActivities() {
+        return activities;
+    }
+
+    public void setActivities(HashMap<Integer, String> activities) {
+        this.activities = activities;
+    }
+
+    public HashMap<Integer, String> getSubPhases() {
+        return subPhases;
+    }
+
+    public void setSubPhases(HashMap<Integer, String> subPhases) {
+        this.subPhases = subPhases;
+    }
 
     public HashMap<Integer, String> getUsers() {
 	return users;
