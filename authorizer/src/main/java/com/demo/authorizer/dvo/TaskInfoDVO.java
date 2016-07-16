@@ -7,7 +7,7 @@ public class TaskInfoDVO{
 
 	private String phase;
 	private String activity;
-	private String remark;
+	private String subPhase;
 	private int estimatedHour;
 	private boolean completionStatus;
 	private String startDate;
@@ -19,17 +19,17 @@ public class TaskInfoDVO{
 	public void setPhase(String phase) {
 		this.phase = phase;
 	}
+	public String getSubPhase() {
+		return subPhase;
+	}
+	public void setSubPhase(String subPhase) {
+		this.subPhase = subPhase;
+	}
 	public String getActivity() {
 		return activity;
 	}
 	public void setActivity(String activity) {
 		this.activity = activity;
-	}
-	public String getRemark() {
-		return remark;
-	}
-	public void setRemark(String remark) {
-		this.remark = remark;
 	}
 	public int getEstimatedHour() {
 		return estimatedHour;
@@ -93,8 +93,8 @@ public class TaskInfoDVO{
 		builder.append(phase);
 		builder.append(", activity=");
 		builder.append(activity);
-		builder.append(", remark=");
-		builder.append(remark);
+		builder.append(", subPhase=");
+		builder.append(subPhase);
 		builder.append(", estimatedHour=");
 		builder.append(estimatedHour);
 		builder.append(", completionStatus=");
