@@ -69,6 +69,8 @@ public class TimeTrackerController {
 	} else {
 	    model.addAttribute("saveStatus", "Error has been occured while saving details");
 	    model.addAttribute("status", "Error:");
+	    TimeTrackerDVO timetracker = timeTrackerService.getInitDetails(userid);
+	    model.addAttribute("timetracker", timetracker);
 	}
 	return "timetracker";
     }
