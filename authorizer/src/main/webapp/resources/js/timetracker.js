@@ -2,6 +2,7 @@
  * 
  */
 $(document).ready(function() {
+	var projId = $("#projectId").val();
 	var taskCount = $('#tasktable tbody>tr').length;
 	$('.ui.dropdown').dropdown();
 	$("#datepicker-input").datepicker({maxDate: 0,dateFormat: 'dd-mm-yy'});
@@ -33,6 +34,7 @@ $(document).ready(function() {
 		$.ajax({
 		    type : "GET",
 		    url : "getTimeTrckerforDropdown",
+		    data: {"projectId": projId},
 		    async : false,
 		    success : function(response) {
 		    	$.each(response.tasks, function(index,value){ 

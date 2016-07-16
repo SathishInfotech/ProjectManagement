@@ -38,9 +38,10 @@ $(document).on("click", '#viewTaskIdBtn', function(e) {
      $('#taskActivityTabl').css('display','none');
      $('#taskActivityTabl').hide();
     var usrId = $("#userId").val();
+    var projId = $("#projectId").val();
     $.ajax({
         type: "POST",
-        data: {"userId": usrId},
+        data: {"userId": usrId,"projectId": projId},
         url: 'viewtaskdetails',
         dataType: 'json',
         success: function(json) {

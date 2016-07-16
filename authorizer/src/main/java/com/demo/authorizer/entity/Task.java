@@ -24,11 +24,16 @@ public class Task implements Serializable {
 	private String taskName;
 
 	//bi-directional many-to-one association to TaskActivityMapper
-	@OneToMany(mappedBy="task",fetch=FetchType.LAZY)
+	@OneToMany(mappedBy="task")
 	private List<TaskActivityMapper> taskActivityMappers;
 
+	//bi-directional many-to-one association to Project
+	@ManyToOne
+	@JoinColumn(name="project_id")
+	private Project project;
+
 	//bi-directional many-to-one association to User
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne
 	private User user;
 
 	public Task() {
@@ -70,6 +75,14 @@ public class Task implements Serializable {
 		taskActivityMapper.setTask(null);
 
 		return taskActivityMapper;
+	}
+
+	public Project getProject() {
+		return this.project;
+	}
+
+	public void setProject(Project project) {
+		this.project = project;
 	}
 
 	public User getUser() {

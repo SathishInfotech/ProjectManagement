@@ -89,16 +89,19 @@ public class TaskServiceImpl  {
 	public void create(TaskDVO taskDVO) {
 		Task task = new Task();
 		User user = new User();
+		Project project = new Project();
+		project.setProjectId(taskDVO.getProjectId());
 		user.setId(taskDVO.getUserId());
 		task.setTaskName(taskDVO.getTaskName());
 		task.setUser(user);
+		task.setProject(project);
 		TaskDAOImpl.save(task);
 		
 	}
 
 	@Transactional
 	public List<TaskDVO> getTaskDetails(TaskDVO taskDVO) {
-		List<Task> tasks =TaskDAOImpl.findTasksByUserId(taskDVO.getUserId());
+		List<Task> tasks =TaskDAOImpl.findTasksByUserIdAndProjectId(taskDVO.getUserId(), taskDVO.getProjectId());
 		List<TaskDVO> taskDVOs = new ArrayList<>();
 		for (Task task : tasks) {
 			TaskDVO dvo = new TaskDVO();

@@ -16,12 +16,13 @@ public class TaskDAOImpl extends GenericDAOImpl<Task, Integer> implements TaskDA
 }
     
     @Override
-    public List<Task> findTasksByUserId(int userId) {
-	List<Task> taskList = findByCriteria(Restrictions.eq("user.id",Integer.valueOf(userId)));
+    public List<Task> findTasksByUserIdAndProjectId(int userId, int projectId) {
+	List<Task> taskList = findByCriteria(Restrictions.eq("user.id",Integer.valueOf(userId)),Restrictions.eq("project.projectId",Integer.valueOf(projectId)));
 	if (taskList != null && taskList.size() > 0) {
 	    return taskList;
 	} else
 	    return null;
     }
+
 
 }

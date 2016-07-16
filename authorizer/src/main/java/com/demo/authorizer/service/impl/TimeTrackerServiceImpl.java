@@ -93,7 +93,8 @@ public class TimeTrackerServiceImpl implements TimeTrackerService {
 
     @Override
     @Transactional
-    public TimeTrackerDVO getInitDetails(int userId) {
+    public TimeTrackerDVO getInitDetails(int userId,String projectId) {
+    int projId= Integer.parseInt(projectId);
 	TimeTrackerDVO timeTrackerDVO = new TimeTrackerDVO();
 	HashMap<Integer, String> phaseMap = new HashMap<Integer, String>();
 	HashMap<Integer, String> taskMap = new HashMap<Integer, String>();
@@ -103,7 +104,7 @@ public class TimeTrackerServiceImpl implements TimeTrackerService {
 		phaseMap.put(phase.getPhaseId(), phase.getPhaseName());
 	    }
 	}
-	List<Task> taskList = taskDAO.findTasksByUserId(userId);
+	List<Task> taskList = taskDAO.findTasksByUserIdAndProjectId(userId, projId);
 	if (taskList != null && taskList.size() > 0) {
 	    for (Task task : taskList) {
 		taskMap.put(task.getTaskId(), task.getTaskName());

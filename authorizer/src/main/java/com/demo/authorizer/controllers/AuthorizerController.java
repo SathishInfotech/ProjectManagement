@@ -5,12 +5,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,8 +28,9 @@ import com.demo.authorizer.dvo.TaskDetailsDVO;
 import com.demo.authorizer.dvo.TaskEstimationSheetDVO;
 import com.demo.authorizer.dvo.TaskInfoDVO;
 import com.demo.authorizer.dvo.TaskSheetDVO;
-import com.demo.authorizer.service.impl.TaskServiceImpl;
+import com.demo.authorizer.service.TaskInfoService;
 import com.demo.authorizer.service.TaskSheetService;
+import com.demo.authorizer.service.impl.TaskServiceImpl;
 
 @Controller
 public class AuthorizerController {
@@ -36,6 +39,8 @@ public class AuthorizerController {
 	TaskServiceImpl taskServiceImpl;
 	@Autowired
 	private TaskSheetService taskSheetService;
+	@Autowired
+	private TaskInfoService taskInfoService;
 
 	@RequestMapping("/home")
 	public String entry(){
@@ -43,8 +48,11 @@ public class AuthorizerController {
 		return "home";
 	}
 	@RequestMapping("/homeManager")
-	public String Manager(){
-		return "homeManager";
+	public ModelAndView  viewTaskHome(HttpServletRequest request){
+		TaskDVO taskDVO = taskServiceImpl.initTask();
+		ModelAndView model = new ModelAndView("viewtask");
+		model.addObject("taskDVO", taskDVO);
+		return model;
 	}
 	
 	
@@ -81,8 +89,6 @@ public class AuthorizerController {
 		TaskDVO taskDVOResp = taskServiceImpl.initTask();
 		ModelAndView model = new ModelAndView("createtask");
 		model.addObject("taskDVO", taskDVOResp);
-		model.addObject("loginMsg", "Task Created successfully");
-		model.addObject("loginClass", "positive");
 		return model;
 	}
 	
@@ -99,14 +105,28 @@ public class AuthorizerController {
 		return mv;
 	}
 	
+	@RequestMapping(value="/fetchPhase",produces={ "application/json"})
+	@ResponseBody
+	public Map<Integer,String> phaseList(){
+		return taskInfoService.fetchPhases();
+	}
+	
+	@RequestMapping(value="/fetchSubPhase/{phaseId}",produces={ "application/json"})
+	@ResponseBody
+	public Map<Integer,String> phaseList(@PathVariable String phaseId){
+		return taskInfoService.fetchSubPhases(Integer.parseInt(phaseId));
+	}
+	
 	@RequestMapping("/taskestimation")
 	public ModelAndView viewTaskEstimationSheet(){
 		TaskInfoDVO taskInfoDVO = new TaskInfoDVO();
 		List<TaskInfoDVO> taskInfoDVOs = new ArrayList<TaskInfoDVO>();
 		taskInfoDVOs.add(taskInfoDVO);
 		TaskEstimationSheetDVO taskEstSheet = new TaskEstimationSheetDVO();
-		taskEstSheet.setTaskInfoDVOs(taskInfoDVOs);;
+		taskEstSheet.setTaskInfoDVOs(taskInfoDVOs);
+		Map<Integer,String> phaseMap = taskInfoService.fetchPhases();
 		ModelAndView mv = new  ModelAndView("taskestimation", "taskEstSheet", taskEstSheet);
+		mv.addObject("phaseMap", phaseMap);
 		return mv;
 	}
 	
@@ -143,16 +163,16 @@ public class AuthorizerController {
 		events.add(event);
 		return events;
 	}
-	
-	@RequestMapping("saveTaskEstSheet")
-	public ModelAndView saveTaskSheet(@ModelAttribute TaskEstimationSheetDVO taskSheet, Principal principal){
+	//saveTaskEstSheet
+	@RequestMapping("genTaskSchedule")
+	public ModelAndView genTaskSchedule(@ModelAttribute TaskEstimationSheetDVO taskSheet, Principal principal){
 		System.out.println(taskSheet);
 		List<TaskInfoDVO> taskInfoDVOs = taskSheetService.generateSheet(taskSheet);
 		TaskEstimationSheetDVO updatedTaskEstimationSheetDVO = taskSheet;
 		updatedTaskEstimationSheetDVO.setTaskInfoDVOs(taskInfoDVOs);
 		ModelAndView mv = new ModelAndView("taskestimationdetails", "taskEstSheet", updatedTaskEstimationSheetDVO);
 		mv.addObject("disabled", "disabled");
-		mv.addObject("saveStatus", "Your task has been successfully saved");
+		mv.addObject("status", "Task sheet generated successfully");
 		System.out.println(updatedTaskEstimationSheetDVO);
 		return mv;
 	}

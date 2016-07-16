@@ -9,7 +9,43 @@
 <script type="text/javascript" src="resources/js/timetracker.js"></script>
 <title>TaskSheet</title>
 </head>
+<script type="text/javascript">
+$(document).on("change", '#projectId', function(e) {
+    var projId = $(this).val();
+    $.ajax({
+        type: "GET",
+        data: {"projectId": projId},
+        url: 'getTimeTrckerTaskPhase',
+        dataType: 'json',
+        success: function(json) {
+
+        	var tasks = json.tasks;
+        	var phases = json.phases;
+            var $elTask = $("#appendtasks0");
+            var $elPhase = $("#appendphases0");
+            $elTask.empty(); // remove old options
+            $elPhase.empty();
+            $elTask.append($("<option></option>")
+                    .attr("value", '').text('Select Task'));
+            $elPhase.append($("<option></option>")
+                    .attr("value", '').text('Select Phase'));
+            var data = json.userDVOs;
+            $.each(tasks, function(k, v) {
+            	$elTask.append($("<option></option>")
+                        .attr("value", k).text(v));
+            });
+            $.each(phases, function(k, v) {
+            	$elPhase.append($("<option></option>")
+                        .attr("value", k).text(v));
+            });
+        }
+    });
+
+});
+</script>
 <body>
+<div class="column" >
+		<h4 class="ui center aligned header">Create Time Tracker</h4>
 	<c:if test="${not empty saveStatus}">
 		<div class="alert alert-success alert-dismissible" role="alert">
 			<button type="button" class="close" data-dismiss="alert"
@@ -19,17 +55,23 @@
 			<strong>${status}</strong> ${saveStatus}
 		</div>
 	</c:if>
-	<div class="ui padded raised segment">
-		<p>
-			<b>Time Tracker Details</b>
-		</p>
-	</div>
 	<form name="timetracker" action="saveTimeTracker" id="timetracker"
 		class="ui form" method="post">
+	<div class="ui padded raised segment">
+		<div class="field" style="width: 50%" align="left">
+				<label>Project</label>  
+				<select	class="ui search dropdown" id="projectId" name="projectId">
+				<option value="">Select Project</option>
+					<c:forEach items="${taskDVO.projectDVOs}" var="element"> 
+						<option value="${element.projectId}">${element.projectName}</option>
+    				</c:forEach>
+				</select>
+		</div>
+	</div>
 		<div class="ui padded raised segment">
 			<button class="ui small right floated primary button"
 				id="addTimeTracker">
-				<span class="glyphicon glyphicon-plus"></span>Add TimeTracker
+				<span class="glyphicon glyphicon-plus"></span>Add New Row
 			</button>
 
 			<table id="tasktable" class="table">
@@ -56,10 +98,6 @@
 									name="timeTrackerDetailsDVOs[0].taskId"
 									onchange="changeTaskFunction(this)" required="required">
 									<option value="">Select Task</option>
-									<c:forEach var="taskMap" items="${timetracker.tasks}">
-										<option value="${taskMap.key}"><c:out
-												value="${taskMap.value}" /></option>
-									</c:forEach>
 								</select>
 
 							</div></td>
@@ -74,10 +112,6 @@
 									name="timeTrackerDetailsDVOs[0].phaseId"
 									onchange="changePhaseFunction(this)" required="required">
 									<option value="">Select Phase</option>
-									<c:forEach var="phaseMap" items="${timetracker.phases}">
-										<option value="${phaseMap.key}"><c:out
-												value="${phaseMap.value}" /></option>
-									</c:forEach>
 								</select>
 							</div></td>
 						<td><div class="field">
@@ -112,5 +146,6 @@
 			class="small ui inverted right floated green button submit"
 			id="submitSheet">Submit</button>
 	</form>
+</div>
 </body>
 </html>

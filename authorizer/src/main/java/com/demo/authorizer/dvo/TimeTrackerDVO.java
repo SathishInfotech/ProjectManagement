@@ -19,6 +19,8 @@ public class TimeTrackerDVO {
     
     private HashMap<Integer, String> subPhases;
     
+    private String projectId;
+    
     
 
     public HashMap<Integer, String> getActivities() {
@@ -76,5 +78,15 @@ public class TimeTrackerDVO {
     public void setPhases(HashMap<Integer, String> phases) {
 	this.phases = phases;
     }
+
+	public String getProjectId() {
+		return projectId;
+	}
+
+	public void setProjectId(String projectId) {
+		this.projectId = projectId;
+	}
+    
+    
 
 }

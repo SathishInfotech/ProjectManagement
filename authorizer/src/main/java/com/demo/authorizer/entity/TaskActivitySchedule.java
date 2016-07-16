@@ -35,8 +35,6 @@ public class TaskActivitySchedule implements Serializable {
 	@Column(name="planned_start_date")
 	private Date plannedStartDate;
 
-	private int poc;
-
 	private int sequence;
 
 	@Column(name="task_activity_status")
@@ -93,14 +91,6 @@ public class TaskActivitySchedule implements Serializable {
 
 	public void setPlannedStartDate(Date plannedStartDate) {
 		this.plannedStartDate = plannedStartDate;
-	}
-
-	public int getPoc() {
-		return this.poc;
-	}
-
-	public void setPoc(int poc) {
-		this.poc = poc;
 	}
 
 	public int getSequence() {

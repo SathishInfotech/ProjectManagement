@@ -49,12 +49,12 @@
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li><a href="homeManager"><span class="glyphicon glyphicon-home"></span>
+					<li><a href="viewtask"><span class="glyphicon glyphicon-home"></span>
 							Home</a></li>
 					<li><a href="createtask"><i class="tasks icon"></i> 
 							Create Task</a></li>
-					<li><a href="viewtask"><i class="find icon"></i> 
-							View Task</a></li>
+					<li><a href="viewtimetracker"><span
+							class="glyphicon glyphicon-time"></span>View TimeTracker</a></li>
 				</ul>
 				<div class="btn-group pull-right">
 					<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">

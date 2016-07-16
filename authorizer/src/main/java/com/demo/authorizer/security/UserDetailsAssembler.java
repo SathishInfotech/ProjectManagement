@@ -25,6 +25,7 @@ public class UserDetailsAssembler {
 	    Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 	    for (UserRole role : userEntity.getUserRoles()) {
 	      authorities.add(new SimpleGrantedAuthority(role.getRole().getRole()));
+	      authorities.add(new SimpleGrantedAuthority("userId_"+userEntity.getId()));
 	    }
 	    
 	    User user = new User(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);

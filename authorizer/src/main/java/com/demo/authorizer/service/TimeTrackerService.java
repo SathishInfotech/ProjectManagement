@@ -7,7 +7,7 @@ import com.demo.authorizer.dvo.TimeTrackerDetailsDVO;
 
 public interface TimeTrackerService {
 
-    TimeTrackerDVO getInitDetails(int userId);
+    TimeTrackerDVO getInitDetails(int userId, String projectId);
 
     TimeTrackerDVO getAllTaskDetailsByUserIdandProjectId(int userId,String date);
     

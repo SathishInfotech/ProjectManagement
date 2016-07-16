@@ -8,6 +8,6 @@ public interface TaskDAO extends GenericDAO<Task, Integer> {
 
 	
     
-    List<Task> findTasksByUserId(int userId);
+    List<Task> findTasksByUserIdAndProjectId(int userId,int projectId);
 
 }
