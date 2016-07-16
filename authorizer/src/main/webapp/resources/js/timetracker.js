@@ -2,14 +2,14 @@
  * 
  */
 $(document).ready(function() {
-	var projId = $("#projectId").val();
 	var taskCount = $('#tasktable tbody>tr').length;
 	$('.ui.dropdown').dropdown();
 	$("#datepicker-input").datepicker({maxDate: 0,dateFormat: 'dd-mm-yy'});
 	$('#datepicker-btn').click(function() {
 		$("#datepicker-input").focus();
 	});
-	$("#addTimeTracker").click(function() {				
+	$(document).on("click", '#addTimeTracker', function(e) {
+		var projId = $("#projectId").val();
 		var rowContent = '<tr><td><div class="ui form"><div class="field"><input type="text" name="timeTrackerDetailsDVOs[' + taskCount + '].timeDate" class="datepick" placeholder="Select Date" required="required"/></div></div></td>'
 		+
 		'<td><div class="ui form"><div class="field"><select id="appendtasks'+taskCount+'"  name="timeTrackerDetailsDVOs[' + taskCount + '].taskId" onchange="changeTaskFunction(this)" required="required"><option value="">Select Task</option></select></div></div></td>'
