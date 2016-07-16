@@ -8,6 +8,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Tasks</title>
 </head>
+<script src="resources/js/createtask.js" type="text/javascript"
+	charset="UTF-8"></script>
 <script>
 $(document).on("change", '#projectId', function(e) {
     var projId = $(this).val();
@@ -39,6 +41,12 @@ $(document).on("change", '#projectId', function(e) {
 <table  class="ui celled table" style="width: 80%"><tr><td>
 	<div class="column">
 		<h4 class="ui center aligned header">Create Task</h4>
+		
+		<c:if test="${not empty loginMsg}">
+						<div class="ui ${loginClass} message">
+							<i class="close icon"></i> ${loginMsg}
+						</div>
+		</c:if>
 
 		<form class="ui large form" name="TaskDVO" action="savetask">
 			<div class="field">

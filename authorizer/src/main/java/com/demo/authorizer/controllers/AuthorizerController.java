@@ -81,6 +81,8 @@ public class AuthorizerController {
 		TaskDVO taskDVOResp = taskServiceImpl.initTask();
 		ModelAndView model = new ModelAndView("createtask");
 		model.addObject("taskDVO", taskDVOResp);
+		model.addObject("loginMsg", "Task Created successfully");
+		model.addObject("loginClass", "positive");
 		return model;
 	}
 	
