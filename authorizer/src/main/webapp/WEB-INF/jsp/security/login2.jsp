@@ -25,7 +25,7 @@
                         <form id="loginForm" class="form-horizontal" role="form" action="<c:url value='j_spring_security_check' />" method="post">
                             <div style="margin-bottom: 25px" class="input-group">
                                 <span class="input-group-addon"><i
-								class="glyphicon glyphicon-user"></i></span> <input id="login-username" type="text" class="form-control" name="j_username" value="" placeholder="username or email">
+								class="glyphicon glyphicon-user"></i></span> <input id="login-username" type="text" class="form-control" name="j_username" value="" placeholder="username">
                             </div>
                             <div style="margin-bottom: 25px" class="input-group">
                                 <span class="input-group-addon"><i

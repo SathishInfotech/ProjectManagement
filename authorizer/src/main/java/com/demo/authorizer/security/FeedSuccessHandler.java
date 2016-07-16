@@ -22,7 +22,7 @@ public class FeedSuccessHandler implements AuthenticationSuccessHandler {
 		@SuppressWarnings("unchecked")
 		Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
 		String page = "";
-		if (roles.contains("MANAGER")) {
+		if (roles.contains("manager")) {
 			page = "homeManager";
 		} else {
 			page = "home";

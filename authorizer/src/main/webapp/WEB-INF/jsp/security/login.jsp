@@ -50,7 +50,7 @@ body>.grid {
 					<div class="field">
 						<div class="ui left icon input">
 							<i class="user icon"></i> <input type="text" name="j_username"
-								placeholder="Username/E-mail address">
+								placeholder="Username">
 						</div>
 					</div>
 					<div class="field">

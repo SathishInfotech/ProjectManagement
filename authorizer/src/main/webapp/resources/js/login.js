@@ -8,11 +8,8 @@ $(document).ready(function() {
 				identifier : 'j_username',
 				rules : [ {
 					type : 'empty',
-					prompt : 'Please enter your e-mail'
-				}, {
-					type : 'email',
-					prompt : 'Please enter a valid e-mail'
-				} ]
+					prompt : 'Please enter your user id'
+				}]
 			},
 			password : {
 				identifier : 'j_password',
