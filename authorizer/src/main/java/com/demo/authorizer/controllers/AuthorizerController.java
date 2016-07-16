@@ -39,8 +39,14 @@ public class AuthorizerController {
 
 	@RequestMapping("/home")
 	public String entry(){
+		
 		return "home";
 	}
+	@RequestMapping("/homeManager")
+	public String Manager(){
+		return "homeManager";
+	}
+	
 	
 	@RequestMapping("/tasks")
 	public String viewTask(){

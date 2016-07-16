@@ -49,17 +49,12 @@
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li><a href="home"><span class="glyphicon glyphicon-home"></span>
+					<li><a href="homeManager"><span class="glyphicon glyphicon-home"></span>
 							Home</a></li>
-					<li><a href="tasks"><i class="calendar icon"></i> Calendar</a></li>
-					<li><a href="tasksheet"><span
-							class="glyphicon glyphicon-time"></span> TimeSheet</a></li>
-					<li><a href="timetracker"><span
-							class="glyphicon glyphicon-time"></span> TimeTracker</a></li>
-					<li><a href="viewtimetracker"><span
-							class="glyphicon glyphicon-time"></span>View TimeTracker</a></li>
-					<li><a href="teamresources"><i class="users icon"></i>
-							Resources</a></li>
+					<li><a href="createtask"><i class="tasks icon"></i> 
+							Create Task</a></li>
+					<li><a href="viewtask"><i class="find icon"></i> 
+							View Task</a></li>
 				</ul>
 				<div class="btn-group pull-right">
 					<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">

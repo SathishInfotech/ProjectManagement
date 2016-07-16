@@ -10,8 +10,19 @@
 		<put-attribute name="footer" value="/WEB-INF/jsp/layout/footer.jsp" />
 	</definition>
 	
+	<definition name="ManagerTemplate" template="/WEB-INF/jsp/layout/layout.jsp">
+		<put-attribute name="title" value="ProjectX" />
+		<put-attribute name="header" value="/WEB-INF/jsp/layout/header1.jsp" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="footer" value="/WEB-INF/jsp/layout/footer.jsp" />
+	</definition>
+	
 	<definition name="home" extends="DefaultTemplate">
 		<put-attribute name="body" value="/WEB-INF/jsp/common/home.jsp" />
+	</definition>
+	
+	<definition name="homeManager" extends="ManagerTemplate">
+		<put-attribute name="body" value="/WEB-INF/jsp/common/home1.jsp" />
 	</definition>
 	
 	<definition name="tasks" extends="DefaultTemplate">
@@ -46,11 +57,11 @@
 		<put-attribute name="body" value="/WEB-INF/jsp/common/editprofile.jsp" />
 	</definition>
 	
-	<definition name="createtask" extends="DefaultTemplate">
+	<definition name="createtask" extends="ManagerTemplate">
 		<put-attribute name="body" value="/WEB-INF/jsp/common/createtask.jsp" />
 	</definition>
 	
-	<definition name="viewtask" extends="DefaultTemplate">
+	<definition name="viewtask" extends="ManagerTemplate">
 		<put-attribute name="body" value="/WEB-INF/jsp/common/viewtask.jsp" />
 	</definition>
 	
