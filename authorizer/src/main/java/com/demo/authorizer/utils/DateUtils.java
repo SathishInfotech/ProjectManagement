@@ -24,7 +24,7 @@ public class DateUtils {
     public static String parseDatetoStringddmmyyy(Date date) {
 	if (date != null) {
 	    DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-	    String resultDate = df.format(df);
+	    String resultDate = df.format(date);
 	    return resultDate;
 	} else {
 	    return "";

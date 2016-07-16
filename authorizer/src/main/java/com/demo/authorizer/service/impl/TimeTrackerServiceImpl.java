@@ -48,16 +48,18 @@ public class TimeTrackerServiceImpl implements TimeTrackerService {
 	try {
 	    List<TimeTracker> timeTrackerList = new ArrayList<TimeTracker>();
 	    if (timeTrackerDetailsDVOs != null) {
-		for (TimeTrackerDetailsDVO timeTrackerDetailsDVO:timeTrackerDetailsDVOs) {
-		    TimeTracker timeTracker = new TimeTracker();
-		    timeTracker.setComments(timeTrackerDetailsDVO.getRemark());
-		    timeTracker.setHoursSpent(BigDecimal.valueOf(Long.parseLong(timeTrackerDetailsDVO.getHoursSpent())));
-		    timeTracker.setTimeDate(DateUtils.parseStringtoDateddmmyyyy(timeTrackerDetailsDVO.getTimeDate()));
-		    User user = new User();
-		    user.setId(userid);
-		    timeTracker.setUser(user);
-		    timeTracker = populateTimeTracker(timeTrackerDetailsDVO, timeTracker);
-		    timeTrackerList.add(timeTracker);
+		for (TimeTrackerDetailsDVO timeTrackerDetailsDVO : timeTrackerDetailsDVOs) {
+		    if (timeTrackerDetailsDVO.getTaskId()!=null && !"".equals(timeTrackerDetailsDVO.getTaskId().trim())) {
+			TimeTracker timeTracker = new TimeTracker();
+			timeTracker.setComments(timeTrackerDetailsDVO.getRemark());
+			timeTracker.setHoursSpent(BigDecimal.valueOf(Long.parseLong(timeTrackerDetailsDVO.getHoursSpent())));
+			timeTracker.setTimeDate(DateUtils.parseStringtoDateddmmyyyy(timeTrackerDetailsDVO.getTimeDate()));
+			User user = new User();
+			user.setId(userid);
+			timeTracker.setUser(user);
+			timeTracker = populateTimeTracker(timeTrackerDetailsDVO, timeTracker);
+			timeTrackerList.add(timeTracker);
+		    }
 		}
 	    }
 	    return timeTrackerDAO.saveList(timeTrackerList);

@@ -50,7 +50,6 @@ $(document).ready(function() {
 		return false;
 	});
 	$('body').on('click', '.delbtn', function() {
-		//taskCount--;
 		$(this).closest('tr').remove();
 	});
 	$('.ui.form').form({
