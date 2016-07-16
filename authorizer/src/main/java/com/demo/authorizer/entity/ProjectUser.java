@@ -24,7 +24,7 @@ public class ProjectUser implements Serializable {
 
     // bi-directional many-to-one association to User
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name = "id",insertable=false,updatable=false)
+    @JoinColumn(name = "user_id",insertable=false,updatable=false)
     private User user1;
 
     
