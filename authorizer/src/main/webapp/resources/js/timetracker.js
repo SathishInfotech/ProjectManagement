@@ -68,7 +68,9 @@ function changePhaseFunction(sel){
 	    url : "getSubphasesByPhasId",
 	    data : {'phaseid':$('#'+phaseIdName).val()},
 	    async : false,
-	    success : function(response) {		    
+	    success : function(response) {
+	    	$("#subphase"+lastCharacter).empty();
+	    	$("#subphase"+lastCharacter).append("<option value=''>Select SubPhase</option>");
 		    $.each(response.subPhases, function(index,value){ 
 		    	$("#subphase"+lastCharacter).append("<option value=\"" + index + "\">" + value + "</option>"); 
 		    });
@@ -88,7 +90,9 @@ function changeTaskFunction(sel){
 	    url : "getActicitiesByTaskId",
 	    data : {'taskid':$('#'+taskIdName).val()},
 	    async : false,
-	    success : function(response) {		    
+	    success : function(response) {
+	    	$("#activity"+lastCharacter).empty();
+	    	$("#activity"+lastCharacter).append("<option value=''>Select Activity</option>");
 		    $.each(response.activities, function(index,value){ 
 		    	$("#activity"+lastCharacter).append("<option value=\"" + index + "\">" + value + "</option>"); 
 		    });
